@@ -2,6 +2,7 @@
 import ctypes
 import functools
 import pathlib
+import shutil
 import subprocess
 import threading
 import time
@@ -28,14 +29,14 @@ opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))
 
 EDGE = r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 prof = r"F:\Administrator\Documents\代码\convenience-store-tycoon\tools\_webprof2"
-proc = subprocess.Popen([EDGE, "--new-window",
+proc = subprocess.Popen([EDGE, "--new-window", "--no-proxy-server",
                          "--user-data-dir=" + prof,
                          "--window-size=1200,740",
                          f"http://127.0.0.1:{PORT}/"])
-time.sleep(20)
+time.sleep(22)
 
 user32 = ctypes.windll.user32
-TITLE_KEY = "便利店大亨"
+TITLE_KEYS = ("便利店大亨", "Convenience Tycoon", "127.0.0.1")
 hwnd = None
 for _ in range(20):
     result = []
@@ -44,7 +45,7 @@ for _ in range(20):
     def cb(h, _):
         buf = ctypes.create_unicode_buffer(256)
         user32.GetWindowTextW(h, buf, 256)
-        if TITLE_KEY in buf.value:
+        if any(k in buf.value for k in TITLE_KEYS) and "Edge" not in buf.value:
             result.append(h)
         return True
     user32.EnumWindows(cb, 0)

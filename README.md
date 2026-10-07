@@ -1,107 +1,62 @@
-# 现实人生模拟器（Reality Life Simulator）
+# 便利店大亨 · Convenience Tycoon
 
-> 从 6 岁到白头，模拟一段温暖又真实的人生。
-> Anti-Design（反设计）风格桌面游戏 · PyQt6 · Windows 免安装单文件 EXE
+**实时便利店经营模拟游戏 —— 一套 Kotlin 代码，三端运行：Windows / 网页 / 安卓**
 
-![游戏主界面](_shots/3-game.png)
+> 街角生意，日进斗金。进货、定价、陈列、促销、结算——时钟真实流动，
+> 顾客实时进店选购排队结账，缺货的客人转身就走。经营你的街角小店，
+> 把净资产滚到 ¥200,000！
 
-## ⬇️ 下载
+![主菜单](convenience-store-tycoon/design/ui-shots/kmp_real_1_menu.png)
+![营业中](convenience-store-tycoon/design/ui-shots/kmp_real_2_open.png)
 
-前往 [Releases](../../releases) 页面下载 `RealityLifeSimulator.exe`（约 38MB，免安装，双击即玩）。
+## 玩法特色
 
-> 仅含 Windows 版。杀毒软件若对 PyInstaller 单文件报警，请添加信任。
+- **实时模拟**：一天 16 个游戏小时，客流按早晚高峰波动；随时暂停或 2×/4× 加速
+- **顾客 AI**：上班族/学生/银发族三类客群，各有时段、预算、耐心与商品偏好；
+  缺货、宰客、排队过长都会流失客人并拉低声望
+- **真实经营细节**：批次保质期（报纸只活 1 天！）、FIFO 先进先出、
+  黄金位陈列、临期促销、供应商整箱进货
+- **经营闭环**：每日结算损益 + 9 项 KPI（转化率/客单价/缺货率/周转/报废率…），
+  满意度 → 声望 → 次日客流的正反馈循环
+- **三端同一套核心**：Kotlin + Compose Multiplatform，
+  经济引擎 20+ 单元测试覆盖（含端到端成交验收）
 
-## 🎮 玩法
+## 下载（v1.0.0）
 
-- **角色创建**：姓名/性别、4 发型 × 4 发色 × 4 肤色 × 6 服装、8 选 2 性格特征、可重抽天赋（10 种）、4 档家庭背景
-- **人生阶段**：童年 → 少年 → 中考分流（高中/职校）→ 高考（重点/本科/落榜复读）→ 大学选专业 → 职场 → 退休
-- **10 条职业线**：程序员/医生/教师/设计师/教练/商务/餐饮/咖啡师/快递/零售，各 3-4 级晋升阶梯（需属性+年资达标）
-- **社交婚恋**：好感度经营 → 表白 → 求婚 → 生子；父母、朋友、同事关系动态变化
-- **生存压力**：房租/房贷、银行利息、基金波动（-12%~+28%）、健康衰减、心情管理
-- **30+ 条件事件**：按年龄/性格/状态触发，选择驱动走向
-- **结局结算**：S/A/B/C 评分 + 人生关键词 + 成就墙 + 完整人生时间线
+| 平台 | 文件 | 说明 |
+|---|---|---|
+| Windows | 便利店大亨-1.0.0.msi | 安装版，含全部运行时，无需 Java |
+| Android 12+ | 便利店大亨-安卓-1.0.2.apk | 直接安装（横屏） |
+| 网页 | 便利店大亨-网页版.zip | 解压后运行「启动网页版.bat」 |
 
-操作：每月 3 行动点分配给学习/锻炼/社交/理财等行动；支持「自动过月」「快进一年」托管与 65 岁后「圆满谢幕」。自动存档于 `%APPDATA%\RealityLifeSimulator\save.json`。
+前往 [Releases](../../releases) 页面下载。
 
-## 🎨 风格
-
-严格遵循 **Anti-Design** 规范：零圆角、4-6px 非对称粗黑边框、高饱和撞色（红/蓝/黄/品红/青/绿）、硬偏移阴影（无模糊）、倾斜标题、hover 生硬变色与边框跳变。人物肖像为写实比例的木刻平涂风（QPainter 自绘，表情随心情变化）。支持亮/暗双背景主题。
-
-## 🛠️ 从源码构建
-
-依赖：Python 3.12+、PyQt6、PyInstaller
-
-```bash
-pip install PyQt6 pyinstaller
-python -m PyInstaller --onefile --windowed --name RealityLifeSimulator reality_life_simulator.py
-```
-
-## ✅ 质量验证
-
-引擎自检（无 GUI 自动打完 4 段完整人生，退出码 0 为通过）：
+## 从源码构建
 
 ```bash
-python reality_life_simulator.py --selftest
+# 桌面版（可玩）
+gradle :composeApp:run
+# 网页版（产物在 composeApp/build/dist/wasmJs）
+gradle :composeApp:wasmJsBrowserDevelopmentExecutableDistribution
+# 安卓 APK（需 Android SDK）
+gradle :composeApp:assembleDebug
 ```
 
-界面截图（生成到 `_shots/`）：
+要求：JDK 17+；安卓构建需 Android SDK（API 34）。
 
-```bash
-python reality_life_simulator.py --shot
-```
+## 项目结构
 
-扩展压力测试：随机事件分支覆盖、职校/复读/社会人分流、社交婚恋链、理财买房边界、存档回路、晋升链——12 条模拟命全部通过（FAILS=0）。
+- `convenience-store-tycoon-kmp/composeApp/src/commonMain/kotlin/tycoon/core/` — 游戏核心
+  （仿真引擎 / 顾客 AI / 库存批次 / 结算账本，纯 Kotlin 零平台依赖）
+- `composeApp/src/commonMain/kotlin/tycoon/ui/` — Compose 界面（三端共用）
+- `composeApp/src/{desktopMain,androidMain,wasmJsMain}/` — 各平台入口
+- `core/Balance.kt` 与 `config/` — 全部可调数值（无魔法数字）
+- `tools/` 与 `art/` — 构建/截图/图标设计脚本
 
-## 📁 结构
+## 相关仓库
 
-```
-reality_life_simulator.py        # 游戏源码（引擎 + 反设计 UI，单文件）
-RealityLifeSimulator.exe         # Windows 免安装版（见 Releases）
-reality-life-simulator-design.md # 游戏设计文档
-reality-life-simulator.html      # v1 网页原型（已被桌面版取代，保留存档）
-fengqi-jiuchangjie.html          # 《风起旧厂街》对话式剧情游戏（单文件 HTML）
-fengqi-jiuchangjie-design.md     # 《风起旧厂街》设计文档
-_shots/                          # 界面截图
-```
-
----
-
-# 🎣 风起旧厂街 · 高启强（对话式剧情游戏）
-
-> 2000 年，京海市，旧厂街菜市场。你还是一个每天凌晨三点起来进鱼的鱼贩子。
-> 三端发布：网页（吉卜力风格）/ Windows EXE / Android PWA（Luma 暗色 × 液态玻璃）· 零依赖 · 9 结局 · 13 成就
->
-> 对话演出：14 位角色各配手绘 Q 版立绘（内联 SVG），随说话人在对话框边角轻柔浮现。
-
-开源仓库：https://github.com/uahz/fengqi-jiuchangjie · 在线试玩：https://uahz.github.io/fengqi-jiuchangjie/fengqi-jiuchangjie.html · 安卓版（PWA，添加到主屏幕即装）：https://uahz.github.io/fengqi-jiuchangjie/mobile/
-
-![标题界面](_shots/gao-1-title.png)
-
-## 🎮 玩法
-
-- **对话驱动**：40+ 剧情节点，四个时代（2000 旧厂街 → 2006 风起 → 2015 登顶 → 2021 潮退），打字机台词，点击/空格推进
-- **五维属性**：💰资金 🐟声望 🤝人脉 ⚠️风险 ❤️初心；每个选项自带数值效果预览，部分选项需人脉达标或持有关键印记才能解锁
-- **🌊 风浪回合**：章节之间的经营层——每时代 4 回合（卖鱼/读书/结交/打点/陪家人/拓张），45% 概率降临随机风浪事件（三个时代共 18 种）
-- **🃏 谋略卡**：研读《孙子兵法》习得六张卡（瞒天过海/借刀杀人/反客为主/金蝉脱壳/以逸待劳/远交近攻），在六个关键剧情打出金色隐藏选项
-- **👥 人物好感**：安欣/启盛/启兰/大嫂/老默/黄瑶六人好感面板，≥70 解锁专属隐藏选项，安欣好感 ≥75 亦通向"回头是岸"
-- **🏆 成就系统**：13 枚成就（意难平、冻鱼传说、兵法宗师、六边形枭雄……），解锁即时 toast，图鉴成就页总览，结局页附"本次成就"
-- **27 枚印记**：《孙子兵法》、安欣的名片、老默的忠心、保护伞、良知未泯……终局结算页完整回顾你走过的路
-- **9 种结局**：潮退 / 京海之王·梦醒 / 回头是岸 / 灰烬 / 鱼死网破 / 亡命南洋 + 3 条章末风险检定败亡线；结局页附「人物命运」名单
-- **S/A/B/C 评级 + 三页图鉴**（结局/成就/谋略）：localStorage 自动存档与进度持久化，多周目收集
-
-操作：点击对话框推进剧情，点击选项做出抉择；⚠️风险≥70 时状态栏红色告警——章末检定不过，故事提前终结。
-
-## 🎬 题材说明
-
-基于电视剧《狂飙》前期故事的同人演绎，角色与事件均为艺术再创作；暴力情节全部侧写处理，结局传达「法网恢恢、回头是岸」。
-
-## ✅ 质量验证
-
-- 页面内置 `window.__qa(n)` 剧情图自检（节点引用完整性 + 随机选择模拟通关，含风浪回合）：实测 600 局随机通关 100% 到达结局、0 错误
-- 浏览器实测标题/对话/抉择/过场/风浪回合/卡牌选项/好感面板/成就页/结局/图鉴截图验收（`_shots/gao-*.png`）
-
-设计文档见 [fengqi-jiuchangjie-design.md](fengqi-jiuchangjie-design.md)，游戏本体 [fengqi-jiuchangjie.html](fengqi-jiuchangjie.html)。
+- [现实人生模拟器 · Life Simulator](https://github.com/uahz/life-simulator) —— 同作者另一款人生模拟游戏（PyQt6 桌面版 + 网页版，仓库内保留其设计文档与截图：`reality-life-simulator*`、`_shots/`）
 
 ## License
 
-MIT
+见 [LICENSE](LICENSE)。
