@@ -58,10 +58,10 @@ android {
 
     defaultConfig {
         applicationId = "com.convenience.tycoon"
-        minSdk = 24
+        minSdk = 31
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0.0"
+        versionCode = 3
+        versionName = "1.0.2"
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

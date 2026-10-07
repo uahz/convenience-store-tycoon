@@ -50,6 +50,7 @@ class GameViewModel(seed: Long?) {
     var sidebarBump by mutableIntStateOf(0)   // 任何操作后 +1，驱动侧栏重组
     var sidebarTab by mutableIntStateOf(0)    // 当前侧栏页签
     var autoDemo by mutableStateOf(false)     // 打包冒烟：自动演示并自截画面
+    var crashText by mutableStateOf<String?>(null)  // 移动端上次崩溃堆栈（自诊断）
 
     fun poke() {
         sidebarBump += 1

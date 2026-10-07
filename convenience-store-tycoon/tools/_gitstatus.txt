@@ -1,0 +1,494 @@
+A  .gitignore
+A  LICENSE
+A  README.md
+A  _shots/.chibi-review.png
+A  _shots/.gao-icon-preview.png
+A  _shots/.gao-icon2.png
+A  _shots/.navarea.png
+A  _shots/1-title.png
+A  _shots/10-summary.png
+A  _shots/11-album.png
+A  _shots/2-create.png
+A  _shots/3-game.png
+A  _shots/4-end.png
+A  _shots/5-social.png
+A  _shots/6-event.png
+A  _shots/7-dark-title.png
+A  _shots/8-dark-game.png
+A  _shots/9-dark-end.png
+A  _shots/gao-1-title.png
+A  _shots/gao-10-aff.png
+A  _shots/gao-11-ach.png
+A  _shots/gao-2-ch1.png
+A  _shots/gao-3-choice.png
+A  _shots/gao-4-era.png
+A  _shots/gao-5-ch2.png
+A  _shots/gao-6-ending.png
+A  _shots/gao-7-gallery.png
+A  _shots/gao-8-wave.png
+A  _shots/gao-9-card.png
+A  _shots/gao-a-1-title.png
+A  _shots/gao-a-2-dialog.png
+A  _shots/gao-a-3-choice.png
+A  _shots/gao-a-4-panel.png
+A  _shots/gao-a-5-selectmode.png
+A  _shots/gao-a-6-dragpill.png
+A  _shots/gao-a-7-gallery.png
+A  _shots/gao-a-8-day.png
+A  _shots/gao-a-9-nav.png
+A  _shots/gao-a-drag.png
+A  convenience-store-tycoon-kmp/.yarnrc
+A  convenience-store-tycoon-kmp/README.md
+A  convenience-store-tycoon-kmp/art/_make_ico.py
+A  convenience-store-tycoon-kmp/art/_render_icons.py
+A  convenience-store-tycoon-kmp/art/icons.html
+A  convenience-store-tycoon-kmp/art/renders/_prof/Crashpad/metadata
+A  convenience-store-tycoon-kmp/art/renders/_prof/Crashpad/settings.dat
+A  convenience-store-tycoon-kmp/art/renders/_prof/Crashpad/throttle_store.dat
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Affiliation Database"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Affiliation Database-journal"
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/BookmarkMergedSurfaceOrdering
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/Cache/Cache_Data/data_0
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/Cache/Cache_Data/data_1
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/Cache/Cache_Data/data_2
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/Cache/Cache_Data/data_3
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/Cache/Cache_Data/index
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/Cache/No_Vary_Search/journal.baj
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/Cache/No_Vary_Search/snapshot.baf
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/ClientCertificates/LOCK
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/ClientCertificates/LOG
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/ClientCertificates/LOG.old
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Code Cache/js/2a8a6f695a3ff316_0"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Code Cache/js/2cca9bc741a6516d_0"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Code Cache/js/5cce1706364839f1_0"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Code Cache/js/5fbb54f36261c413_0"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Code Cache/js/7de0dc67a2b3a69c_0"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Code Cache/js/8020acacb3d13763_0"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Code Cache/js/8bb1867be67136eb_0"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Code Cache/js/945cb8fb56d09a8e_0"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Code Cache/js/b21fb45197b9c728_0"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Code Cache/js/ba678a2fbd8c358c_0"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Code Cache/js/baded5730168391f_0"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Code Cache/js/e94999eac39dfd99_0"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Code Cache/js/e9a142a21b9ad9ef_0"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Code Cache/js/ebce9e52a869b921_0"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Code Cache/js/index"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Code Cache/js/index-dir/the-real-index"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Code Cache/wasm/index"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Code Cache/wasm/index-dir/the-real-index"
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/DawnGraphiteCache/data_0
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/DawnGraphiteCache/data_1
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/DawnGraphiteCache/data_2
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/DawnGraphiteCache/data_3
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/DawnGraphiteCache/index
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/DawnWebGPUCache/data_0
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/DawnWebGPUCache/data_1
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/DawnWebGPUCache/data_2
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/DawnWebGPUCache/data_3
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/DawnWebGPUCache/index
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/DualEngine/SiteList-Consumer.json
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/DualEngine/SiteList-Enterprise.json
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/EdgeHubAppUsage/EdgeHubAppUsageSQLite.db
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/EdgeHubAppUsage/EdgeHubAppUsageSQLite.db-journal
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/EdgePushStorageWithConnectTokenAndKey/LOCK
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/EdgePushStorageWithConnectTokenAndKey/LOG
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/EdgePushStorageWithConnectTokenAndKey/LOG.old
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Extension Rules/000003.log"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Extension Rules/CURRENT"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Extension Rules/LOCK"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Extension Rules/LOG"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Extension Rules/MANIFEST-000001"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Extension Scripts/000003.log"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Extension Scripts/CURRENT"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Extension Scripts/LOCK"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Extension Scripts/LOG"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Extension Scripts/MANIFEST-000001"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Extension State/000003.log"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Extension State/CURRENT"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Extension State/LOCK"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Extension State/LOG"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Extension State/LOG.old"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Extension State/MANIFEST-000001"
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/Favicons
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/Favicons-journal
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/GPUCache/data_0
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/GPUCache/data_1
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/GPUCache/data_2
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/GPUCache/data_3
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/GPUCache/index
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/History
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/History-journal
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/HubApps Icons"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/HubApps Icons-journal"
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/LOCK
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/LOG
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/LOG.old
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Local Extension Settings/jdiccldimpdaibmpdkjnbmckianbfold/000003.log"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Local Extension Settings/jdiccldimpdaibmpdkjnbmckianbfold/CURRENT"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Local Extension Settings/jdiccldimpdaibmpdkjnbmckianbfold/LOCK"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Local Extension Settings/jdiccldimpdaibmpdkjnbmckianbfold/LOG"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Local Extension Settings/jdiccldimpdaibmpdkjnbmckianbfold/MANIFEST-000001"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Local Storage/leveldb/000003.log"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Local Storage/leveldb/CURRENT"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Local Storage/leveldb/LOCK"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Local Storage/leveldb/LOG"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Local Storage/leveldb/LOG.old"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Local Storage/leveldb/MANIFEST-000001"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Login Data"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Login Data For Account"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Login Data For Account-journal"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Login Data-journal"
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/Network/Cookies
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/Network/Cookies-journal
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Network/Device Bound Sessions"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Network/Device Bound Sessions-journal"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Network/Network Persistent State"
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/Network/NetworkDataMigrated
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Network/Reporting and NEL"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Network/Reporting and NEL-journal"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Network/SCT Auditing Pending Reports"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Network/Sdch Dictionaries"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Network/Trust Tokens"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Network/Trust Tokens-journal"
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/Nurturing/campaign_history
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/Nurturing/campaign_history-journal
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/PersistentOriginTrials/LOCK
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/PersistentOriginTrials/LOG
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/PersistentOriginTrials/LOG.old
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/Preferences
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/README
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Secure Preferences"
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/ServerCertificate
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/ServerCertificate-journal
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Service Worker/Database/000003.log"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Service Worker/Database/CURRENT"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Service Worker/Database/LOCK"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Service Worker/Database/LOG"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Service Worker/Database/LOG.old"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Service Worker/Database/MANIFEST-000001"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Service Worker/ScriptCache/2cc80dabc69f58b6_0"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Service Worker/ScriptCache/index"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Service Worker/ScriptCache/index-dir/the-real-index"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Session Storage/000003.log"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Session Storage/CURRENT"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Session Storage/LOCK"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Session Storage/LOG"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Session Storage/MANIFEST-000001"
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/Sessions/Session_13435569095359161
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/Sessions/Session_13435569096581526
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/Sessions/Tabs_13435569095416600
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/Sessions/Tabs_13435569096642630
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Shared Dictionary/cache/index"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Shared Dictionary/cache/index-dir/the-real-index"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Shared Dictionary/db"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Shared Dictionary/db-journal"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Site Characteristics Database/000003.log"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Site Characteristics Database/CURRENT"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Site Characteristics Database/LOCK"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Site Characteristics Database/LOG"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Site Characteristics Database/LOG.old"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Site Characteristics Database/MANIFEST-000001"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Storage/ext/ihmafllikibpmigkcoadcmckbfhibefp/def/Code Cache/js/6f3a0dc5e6916f1e_0"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Storage/ext/ihmafllikibpmigkcoadcmckbfhibefp/def/Code Cache/js/index"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Storage/ext/ihmafllikibpmigkcoadcmckbfhibefp/def/Code Cache/js/index-dir/the-real-index"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Storage/ext/ihmafllikibpmigkcoadcmckbfhibefp/def/Code Cache/wasm/index"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Storage/ext/ihmafllikibpmigkcoadcmckbfhibefp/def/Code Cache/wasm/index-dir/the-real-index"
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/Storage/ext/ihmafllikibpmigkcoadcmckbfhibefp/def/DawnGraphiteCache/data_0
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/Storage/ext/ihmafllikibpmigkcoadcmckbfhibefp/def/DawnGraphiteCache/data_1
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/Storage/ext/ihmafllikibpmigkcoadcmckbfhibefp/def/DawnGraphiteCache/data_2
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/Storage/ext/ihmafllikibpmigkcoadcmckbfhibefp/def/DawnGraphiteCache/data_3
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/Storage/ext/ihmafllikibpmigkcoadcmckbfhibefp/def/DawnGraphiteCache/index
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/Storage/ext/ihmafllikibpmigkcoadcmckbfhibefp/def/DawnWebGPUCache/data_0
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/Storage/ext/ihmafllikibpmigkcoadcmckbfhibefp/def/DawnWebGPUCache/data_1
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/Storage/ext/ihmafllikibpmigkcoadcmckbfhibefp/def/DawnWebGPUCache/data_2
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/Storage/ext/ihmafllikibpmigkcoadcmckbfhibefp/def/DawnWebGPUCache/data_3
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/Storage/ext/ihmafllikibpmigkcoadcmckbfhibefp/def/DawnWebGPUCache/index
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/Storage/ext/ihmafllikibpmigkcoadcmckbfhibefp/def/GPUCache/data_0
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/Storage/ext/ihmafllikibpmigkcoadcmckbfhibefp/def/GPUCache/data_1
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/Storage/ext/ihmafllikibpmigkcoadcmckbfhibefp/def/GPUCache/data_2
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/Storage/ext/ihmafllikibpmigkcoadcmckbfhibefp/def/GPUCache/data_3
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/Storage/ext/ihmafllikibpmigkcoadcmckbfhibefp/def/GPUCache/index
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Storage/ext/ihmafllikibpmigkcoadcmckbfhibefp/def/Local Storage/leveldb/000003.log"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Storage/ext/ihmafllikibpmigkcoadcmckbfhibefp/def/Local Storage/leveldb/CURRENT"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Storage/ext/ihmafllikibpmigkcoadcmckbfhibefp/def/Local Storage/leveldb/LOCK"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Storage/ext/ihmafllikibpmigkcoadcmckbfhibefp/def/Local Storage/leveldb/LOG"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Storage/ext/ihmafllikibpmigkcoadcmckbfhibefp/def/Local Storage/leveldb/MANIFEST-000001"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Storage/ext/ihmafllikibpmigkcoadcmckbfhibefp/def/Network/Device Bound Sessions"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Storage/ext/ihmafllikibpmigkcoadcmckbfhibefp/def/Network/Device Bound Sessions-journal"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Storage/ext/ihmafllikibpmigkcoadcmckbfhibefp/def/Network/Network Persistent State"
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/Storage/ext/ihmafllikibpmigkcoadcmckbfhibefp/def/Network/NetworkDataMigrated
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Storage/ext/ihmafllikibpmigkcoadcmckbfhibefp/def/Network/SCT Auditing Pending Reports"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Storage/ext/ihmafllikibpmigkcoadcmckbfhibefp/def/Network/Trust Tokens"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Storage/ext/ihmafllikibpmigkcoadcmckbfhibefp/def/Network/Trust Tokens-journal"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Storage/ext/ihmafllikibpmigkcoadcmckbfhibefp/def/Session Storage/000003.log"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Storage/ext/ihmafllikibpmigkcoadcmckbfhibefp/def/Session Storage/CURRENT"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Storage/ext/ihmafllikibpmigkcoadcmckbfhibefp/def/Session Storage/LOCK"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Storage/ext/ihmafllikibpmigkcoadcmckbfhibefp/def/Session Storage/LOG"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Storage/ext/ihmafllikibpmigkcoadcmckbfhibefp/def/Session Storage/MANIFEST-000001"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Storage/ext/ihmafllikibpmigkcoadcmckbfhibefp/def/Shared Dictionary/cache/index"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Storage/ext/ihmafllikibpmigkcoadcmckbfhibefp/def/Shared Dictionary/cache/index-dir/the-real-index"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Storage/ext/ihmafllikibpmigkcoadcmckbfhibefp/def/Shared Dictionary/db"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Storage/ext/ihmafllikibpmigkcoadcmckbfhibefp/def/Shared Dictionary/db-journal"
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/Storage/ext/ihmafllikibpmigkcoadcmckbfhibefp/def/declarative_performance_observer.db
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/Storage/ext/ihmafllikibpmigkcoadcmckbfhibefp/def/declarative_performance_observer.db-journal
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Sync Data/LevelDB/000003.log"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Sync Data/LevelDB/CURRENT"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Sync Data/LevelDB/LOCK"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Sync Data/LevelDB/LOG"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Sync Data/LevelDB/LOG.old"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Sync Data/LevelDB/MANIFEST-000001"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Top Sites"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Top Sites-journal"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Vpn Tokens"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Vpn Tokens-journal"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Web Data"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Default/Web Data-journal"
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/WebStorage/QuotaManager
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/WebStorage/QuotaManager-journal
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/arbitration_service_config.json
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/commerce_subscription_db/LOCK
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/commerce_subscription_db/LOG
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/commerce_subscription_db/LOG.old
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/declarative_performance_observer.db
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/declarative_performance_observer.db-journal
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/discount_infos_db/LOCK
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/discount_infos_db/LOG
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/discount_infos_db/LOG.old
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/discounts_db/LOCK
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/discounts_db/LOG
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/discounts_db/LOG.old
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/load_statistics.db
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/parcel_tracking_db/LOCK
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/parcel_tracking_db/LOG
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/parcel_tracking_db/LOG.old
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/shared_proto_db/000003.log
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/shared_proto_db/CURRENT
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/shared_proto_db/LOCK
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/shared_proto_db/LOG
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/shared_proto_db/LOG.old
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/shared_proto_db/MANIFEST-000001
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/shared_proto_db/metadata/000003.log
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/shared_proto_db/metadata/CURRENT
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/shared_proto_db/metadata/LOCK
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/shared_proto_db/metadata/LOG
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/shared_proto_db/metadata/LOG.old
+A  convenience-store-tycoon-kmp/art/renders/_prof/Default/shared_proto_db/metadata/MANIFEST-000001
+A  convenience-store-tycoon-kmp/art/renders/_prof/FirstLaunchAfterInstallation
+A  convenience-store-tycoon-kmp/art/renders/_prof/GPUPersistentCache/DawnGraphiteCache/H6POMLZSBZPTMTLBCTMXRDH27BAKUDTA/cache.db
+A  convenience-store-tycoon-kmp/art/renders/_prof/GPUPersistentCache/DawnGraphiteCache/H6POMLZSBZPTMTLBCTMXRDH27BAKUDTA/cache.db-wal
+A  convenience-store-tycoon-kmp/art/renders/_prof/GPUPersistentCache/DawnGraphiteCache/H6POMLZSBZPTMTLBCTMXRDH27BAKUDTA/cache.journal
+A  convenience-store-tycoon-kmp/art/renders/_prof/GrShaderCache/data_0
+A  convenience-store-tycoon-kmp/art/renders/_prof/GrShaderCache/data_1
+A  convenience-store-tycoon-kmp/art/renders/_prof/GrShaderCache/data_2
+A  convenience-store-tycoon-kmp/art/renders/_prof/GrShaderCache/data_3
+A  convenience-store-tycoon-kmp/art/renders/_prof/GrShaderCache/index
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Last Version"
+A  "convenience-store-tycoon-kmp/art/renders/_prof/Local State"
+A  convenience-store-tycoon-kmp/art/renders/_prof/Nurturing/campaign_history
+A  convenience-store-tycoon-kmp/art/renders/_prof/Nurturing/campaign_history-journal
+A  convenience-store-tycoon-kmp/art/renders/_prof/ShaderCache/data_0
+A  convenience-store-tycoon-kmp/art/renders/_prof/ShaderCache/data_1
+A  convenience-store-tycoon-kmp/art/renders/_prof/ShaderCache/data_2
+A  convenience-store-tycoon-kmp/art/renders/_prof/ShaderCache/data_3
+A  convenience-store-tycoon-kmp/art/renders/_prof/ShaderCache/index
+A  convenience-store-tycoon-kmp/art/renders/_prof/SmartScreen/RemoteData/customSettings
+A  convenience-store-tycoon-kmp/art/renders/_prof/SmartScreen/RemoteData/customSettings_F95BA787499AB4FA9EFFF472CE383A14
+A  convenience-store-tycoon-kmp/art/renders/_prof/SmartScreen/RemoteData/edgeSettings
+A  convenience-store-tycoon-kmp/art/renders/_prof/SmartScreen/RemoteData/edgeSettings_2.0-0
+A  convenience-store-tycoon-kmp/art/renders/_prof/Variations
+A  convenience-store-tycoon-kmp/art/renders/_prof/VariationsRuntimeSeedV2
+A  convenience-store-tycoon-kmp/art/renders/_prof/VariationsSafeSeedV2
+A  convenience-store-tycoon-kmp/art/renders/_prof/VariationsSeedV2
+A  convenience-store-tycoon-kmp/art/renders/_prof/extensions_crx_cache/metadata.json
+A  convenience-store-tycoon-kmp/art/renders/icon_main_192.png
+A  convenience-store-tycoon-kmp/art/renders/icon_main_512.png
+A  convenience-store-tycoon-kmp/art/renders/icon_main_96.png
+A  convenience-store-tycoon-kmp/art/renders/icons_sheet.png
+A  convenience-store-tycoon-kmp/build.gradle.kts
+A  convenience-store-tycoon-kmp/composeApp/build.gradle.kts
+A  convenience-store-tycoon-kmp/composeApp/icons/game.ico
+A  convenience-store-tycoon-kmp/composeApp/src/androidMain/AndroidManifest.xml
+A  convenience-store-tycoon-kmp/composeApp/src/androidMain/kotlin/tycoon/DemoHook.android.kt
+A  convenience-store-tycoon-kmp/composeApp/src/androidMain/kotlin/tycoon/MainActivity.kt
+A  convenience-store-tycoon-kmp/composeApp/src/androidMain/kotlin/tycoon/PlatformIo.android.kt
+A  convenience-store-tycoon-kmp/composeApp/src/androidMain/res/drawable/ic_launcher_foreground.xml
+A  convenience-store-tycoon-kmp/composeApp/src/androidMain/res/mipmap-anydpi-v26/ic_launcher.xml
+A  convenience-store-tycoon-kmp/composeApp/src/androidMain/res/mipmap-anydpi-v26/ic_launcher_round.xml
+A  convenience-store-tycoon-kmp/composeApp/src/androidMain/res/values/ic_launcher_background.xml
+A  convenience-store-tycoon-kmp/composeApp/src/androidMain/res/values/strings.xml
+A  convenience-store-tycoon-kmp/composeApp/src/androidMain/res/values/themes.xml
+A  convenience-store-tycoon-kmp/composeApp/src/commonMain/kotlin/tycoon/PlatformIo.kt
+A  convenience-store-tycoon-kmp/composeApp/src/commonMain/kotlin/tycoon/core/Balance.kt
+A  convenience-store-tycoon-kmp/composeApp/src/commonMain/kotlin/tycoon/core/Catalog.kt
+A  convenience-store-tycoon-kmp/composeApp/src/commonMain/kotlin/tycoon/core/Customer.kt
+A  convenience-store-tycoon-kmp/composeApp/src/commonMain/kotlin/tycoon/core/Customers.kt
+A  convenience-store-tycoon-kmp/composeApp/src/commonMain/kotlin/tycoon/core/Game.kt
+A  convenience-store-tycoon-kmp/composeApp/src/commonMain/kotlin/tycoon/core/Inventory.kt
+A  convenience-store-tycoon-kmp/composeApp/src/commonMain/kotlin/tycoon/core/Pricing.kt
+A  convenience-store-tycoon-kmp/composeApp/src/commonMain/kotlin/tycoon/core/Rng.kt
+A  convenience-store-tycoon-kmp/composeApp/src/commonMain/kotlin/tycoon/core/Settlement.kt
+A  convenience-store-tycoon-kmp/composeApp/src/commonMain/kotlin/tycoon/core/Simulation.kt
+A  convenience-store-tycoon-kmp/composeApp/src/commonMain/kotlin/tycoon/core/State.kt
+A  convenience-store-tycoon-kmp/composeApp/src/commonMain/kotlin/tycoon/ui/AppRoot.kt
+A  convenience-store-tycoon-kmp/composeApp/src/commonMain/kotlin/tycoon/ui/DemoHook.kt
+A  convenience-store-tycoon-kmp/composeApp/src/commonMain/kotlin/tycoon/ui/Dialogs.kt
+A  convenience-store-tycoon-kmp/composeApp/src/commonMain/kotlin/tycoon/ui/FloorCanvas.kt
+A  convenience-store-tycoon-kmp/composeApp/src/commonMain/kotlin/tycoon/ui/GameViewModel.kt
+A  convenience-store-tycoon-kmp/composeApp/src/commonMain/kotlin/tycoon/ui/SidebarPanels.kt
+A  convenience-store-tycoon-kmp/composeApp/src/commonMain/kotlin/tycoon/ui/Theme.kt
+A  convenience-store-tycoon-kmp/composeApp/src/commonMain/kotlin/tycoon/util/Fmt.kt
+A  convenience-store-tycoon-kmp/composeApp/src/desktopMain/kotlin/tycoon/DemoHook.desktop.kt
+A  convenience-store-tycoon-kmp/composeApp/src/desktopMain/kotlin/tycoon/Main_desktop.kt
+A  convenience-store-tycoon-kmp/composeApp/src/desktopMain/kotlin/tycoon/PlatformIo.desktop.kt
+A  convenience-store-tycoon-kmp/composeApp/src/wasmJsMain/kotlin/tycoon/DemoHook.wasm.kt
+A  convenience-store-tycoon-kmp/composeApp/src/wasmJsMain/kotlin/tycoon/Main_wasm.kt
+A  convenience-store-tycoon-kmp/composeApp/src/wasmJsMain/kotlin/tycoon/PlatformIo.wasm.kt
+A  "convenience-store-tycoon-kmp/dist-delivery/\344\276\277\345\210\251\345\272\227\345\244\247\344\272\250-\345\256\211\345\215\223.apk"
+A  "convenience-store-tycoon-kmp/dist-delivery/\344\276\277\345\210\251\345\272\227\345\244\247\344\272\250-\347\275\221\351\241\265\347\211\210.zip"
+A  convenience-store-tycoon-kmp/gradle.properties
+A  convenience-store-tycoon-kmp/kotlin-js-store/yarn.lock
+A  convenience-store-tycoon-kmp/settings.gradle.kts
+A  convenience-store-tycoon/.gitignore
+A  convenience-store-tycoon/ConvenienceTycoon.spec
+A  convenience-store-tycoon/DESIGN.md
+A  convenience-store-tycoon/README.md
+A  convenience-store-tycoon/_balance_check.py
+A  convenience-store-tycoon/_exe_selftest.py
+A  convenience-store-tycoon/_exe_smoke.py
+A  convenience-store-tycoon/_gen_mockups.py
+A  convenience-store-tycoon/_gen_mockups2.py
+A  convenience-store-tycoon/_gen_mockups3.py
+A  convenience-store-tycoon/_gui_shots.py
+A  convenience-store-tycoon/_shot.sh
+A  convenience-store-tycoon/config/__init__.py
+A  convenience-store-tycoon/config/balance.py
+A  convenience-store-tycoon/config/customers.py
+A  convenience-store-tycoon/config/items.py
+A  convenience-store-tycoon/core/__init__.py
+A  convenience-store-tycoon/core/catalog.py
+A  convenience-store-tycoon/core/customer.py
+A  convenience-store-tycoon/core/display.py
+A  convenience-store-tycoon/core/economy.py
+A  convenience-store-tycoon/core/game.py
+A  convenience-store-tycoon/core/inventory.py
+A  convenience-store-tycoon/core/pricing.py
+A  convenience-store-tycoon/core/rng.py
+A  convenience-store-tycoon/core/settlement.py
+A  convenience-store-tycoon/core/simulation.py
+A  convenience-store-tycoon/core/state.py
+A  convenience-store-tycoon/core/traffic.py
+A  convenience-store-tycoon/design/mockups/s01_main_menu.html
+A  convenience-store-tycoon/design/mockups/s02_difficulty.html
+A  convenience-store-tycoon/design/mockups/s03_prep.html
+A  convenience-store-tycoon/design/mockups/s04_procurement.html
+A  convenience-store-tycoon/design/mockups/s05_pricing.html
+A  convenience-store-tycoon/design/mockups/s06_shelving.html
+A  convenience-store-tycoon/design/mockups/s07_day_run.html
+A  convenience-store-tycoon/design/mockups/s08_settlement.html
+A  convenience-store-tycoon/design/mockups/s09_night.html
+A  convenience-store-tycoon/design/mockups/s10_reports.html
+A  convenience-store-tycoon/design/mockups/t01_realtime_main.html
+A  convenience-store-tycoon/design/mockups/t02_shelf_popover.html
+A  convenience-store-tycoon/design/mockups/t03_pause_procurement.html
+A  convenience-store-tycoon/design/mockups/u01_wasd_camera.html
+A  convenience-store-tycoon/design/mockups/u02_interact_popover.html
+A  convenience-store-tycoon/design/ui-shots/gui_real_1_menu.png
+A  convenience-store-tycoon/design/ui-shots/gui_real_2_open.png
+A  convenience-store-tycoon/design/ui-shots/gui_real_3_settlement.png
+A  convenience-store-tycoon/design/ui-shots/kmp_real_1_menu.png
+A  convenience-store-tycoon/design/ui-shots/kmp_real_2_open.png
+A  convenience-store-tycoon/design/ui-shots/kmp_real_3_buy.png
+A  convenience-store-tycoon/design/ui-shots/s01_main_menu.png
+A  convenience-store-tycoon/design/ui-shots/s02_difficulty.png
+A  convenience-store-tycoon/design/ui-shots/s03_prep.png
+A  convenience-store-tycoon/design/ui-shots/s04_procurement.png
+A  convenience-store-tycoon/design/ui-shots/s05_pricing.png
+A  convenience-store-tycoon/design/ui-shots/s06_shelving.png
+A  convenience-store-tycoon/design/ui-shots/s07_day_run.png
+A  convenience-store-tycoon/design/ui-shots/s08_settlement.png
+A  convenience-store-tycoon/design/ui-shots/s09_night.png
+A  convenience-store-tycoon/design/ui-shots/s10_reports.png
+A  convenience-store-tycoon/design/ui-shots/t01_realtime_main.png
+A  convenience-store-tycoon/design/ui-shots/t02_shelf_popover.png
+A  convenience-store-tycoon/design/ui-shots/t03_pause_procurement.png
+A  convenience-store-tycoon/design/ui-shots/u01_wasd_camera.png
+A  convenience-store-tycoon/design/ui-shots/u02_interact_popover.png
+A  convenience-store-tycoon/design/ui-shots/w01_ursina_spike.png
+A  convenience-store-tycoon/design/ui-shots/w02_ursina_v2.png
+A  convenience-store-tycoon/main.py
+A  convenience-store-tycoon/save/__init__.py
+A  convenience-store-tycoon/save/savegame.py
+A  convenience-store-tycoon/selftest_result.txt
+A  convenience-store-tycoon/tests/__init__.py
+A  convenience-store-tycoon/tests/test_customer_ai.py
+A  convenience-store-tycoon/tests/test_gui.py
+A  convenience-store-tycoon/tests/test_inventory.py
+A  convenience-store-tycoon/tests/test_save_version.py
+A  convenience-store-tycoon/tests/test_settlement.py
+A  convenience-store-tycoon/tests/test_simulation.py
+A  convenience-store-tycoon/tools/_android_pkg.py
+A  convenience-store-tycoon/tools/_build_msi.py
+A  convenience-store-tycoon/tools/_check_wix_files.py
+A  convenience-store-tycoon/tools/_collect_delivery.py
+A  convenience-store-tycoon/tools/_curl_check.txt;
+A  convenience-store-tycoon/tools/_demo_shot.py
+A  convenience-store-tycoon/tools/_extract_and_verify.py
+A  convenience-store-tycoon/tools/_fetch_wix_loop.sh
+A  convenience-store-tycoon/tools/_find_shortcuts.py
+A  convenience-store-tycoon/tools/_findjar.py
+A  convenience-store-tycoon/tools/_gradle.py
+A  convenience-store-tycoon/tools/_gradle_version.py
+A  convenience-store-tycoon/tools/_grep_wix_prop.py
+A  convenience-store-tycoon/tools/_inspect_tar.py
+A  convenience-store-tycoon/tools/_inspect_wix.py
+A  convenience-store-tycoon/tools/_install_and_collect.py
+A  convenience-store-tycoon/tools/_light_check.py
+A  convenience-store-tycoon/tools/_msi_pipeline.py
+A  convenience-store-tycoon/tools/_package_pc.py
+A  convenience-store-tycoon/tools/_probe_installers.py
+A  convenience-store-tycoon/tools/_probe_wix.py
+A  convenience-store-tycoon/tools/_pw_capture.py
+A  convenience-store-tycoon/tools/_readargs.py
+A  convenience-store-tycoon/tools/_rezip_web.py
+A  convenience-store-tycoon/tools/_sdk.py
+A  convenience-store-tycoon/tools/_seed_caches.py
+A  convenience-store-tycoon/tools/_set_wix_url.py
+A  convenience-store-tycoon/tools/_setup_local_wix.py
+A  convenience-store-tycoon/tools/_shot_kmp.py
+A  convenience-store-tycoon/tools/_shot_kmp2.py
+A  convenience-store-tycoon/tools/_strings_wix.py
+A  convenience-store-tycoon/tools/_verify_toolchain.py
+A  convenience-store-tycoon/tools/_web_shot.py
+A  convenience-store-tycoon/tools/_web_shot2.py
+A  convenience-store-tycoon/tools/_web_verify.py
+A  convenience-store-tycoon/tools/_wix_head.txt;
+A  convenience-store-tycoon/tools/_write_localprops.py
+A  convenience-store-tycoon/tools/cache_yarn.tgz
+A  convenience-store-tycoon/tools/gradle_dl.log
+A  convenience-store-tycoon/tools/jdk_dl.log
+A  convenience-store-tycoon/ui/__init__.py
+A  convenience-store-tycoon/ui/console.py
+A  convenience-store-tycoon/ui/screens/__init__.py
+A  convenience-store-tycoon/ui/screens/ending.py
+A  convenience-store-tycoon/ui/screens/help_screen.py
+A  convenience-store-tycoon/ui/screens/main_menu.py
+A  convenience-store-tycoon/ui/screens/night.py
+A  convenience-store-tycoon/ui/screens/open_view.py
+A  convenience-store-tycoon/ui/screens/prep.py
+A  convenience-store-tycoon/ui/screens/pricing.py
+A  convenience-store-tycoon/ui/screens/procurement.py
+A  convenience-store-tycoon/ui/screens/reports.py
+A  convenience-store-tycoon/ui/screens/settlement.py
+A  convenience-store-tycoon/ui/screens/shelving.py
+A  convenience-store-tycoon/ui/theme.py
+A  convenience-store-tycoon/ui_gui/__init__.py
+A  convenience-store-tycoon/ui_gui/app.py
+A  convenience-store-tycoon/ui_gui/dialogs.py
+A  convenience-store-tycoon/ui_gui/floorview.py
+A  convenience-store-tycoon/ui_gui/sidebar.py
+A  convenience-store-tycoon/ui_gui/theme.py
+A  convenience-store-tycoon/ui_gui/widgets.py
+A  reality-life-simulator-design.md
+A  reality-life-simulator.html
+A  reality_life_simulator.py
+?? convenience-store-tycoon/tools/_gitstatus.txt

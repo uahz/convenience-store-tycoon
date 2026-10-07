@@ -42,7 +42,10 @@ import tycoon.core.Savegame
 import tycoon.util.Fmt
 
 @Composable
-fun TycoonAppRoot(vm: GameViewModel) {
+fun TycoonAppRoot(vm: GameViewModel, previousCrash: String? = null) {
+    if (previousCrash != null && vm.crashText == null) {
+        vm.crashText = previousCrash
+    }
     MaterialTheme(
         colorScheme = MaterialTheme.colorScheme.copy(
             primary = Theme.Primary,
@@ -175,6 +178,26 @@ private fun MenuScreen(vm: GameViewModel) {
         contentAlignment = Alignment.Center,
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            vm.crashText?.let { crash ->
+                Column(
+                    Modifier
+                        .width(560.dp)
+                        .clip(RoundedCornerShape(12.dp))
+                        .background(Color(0xFFFDECEB))
+                        .padding(12.dp),
+                ) {
+                    Text("⚠ 上次启动异常（请将以下内容截图反馈）",
+                        fontSize = 12.sp, fontWeight = FontWeight.Bold,
+                        color = Theme.Bad)
+                    Text(
+                        crash.take(1200),
+                        fontSize = 10.sp, color = Theme.Bad,
+                        lineHeight = 14.sp,
+                        modifier = Modifier.padding(top = 6.dp),
+                    )
+                }
+                Spacer(Modifier.height(16.dp))
+            }
             Icon(
                 Icons.Filled.Storefront, null,
                 tint = Theme.Primary, modifier = Modifier.size(56.dp),
