@@ -1,0 +1,92 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+* { margin:0; padding:0; box-sizing:border-box; font-family:"Microsoft YaHei UI","PingFang SC",sans-serif; }
+body { background:#aab4c0; padding:20px; }
+.win { width:1040px; border-radius:12px; overflow:hidden; border:1px solid #b9c3ce;
+       box-shadow:0 18px 50px rgba(20,35,50,.35); background:#eef1f5; }
+.titlebar { height:38px; background:#ffffff; border-bottom:1px solid #e2e7ee;
+            display:flex; align-items:center; padding:0 14px; gap:10px; }
+.logo { width:22px; height:22px; border-radius:6px; background:#1f7a5a; color:#fff;
+        font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; }
+.titlebar .t { font-size:12.5px; color:#4a5a6a; font-weight:600; }
+.titlebar .btns { margin-left:auto; display:flex; gap:6px; }
+.titlebar .btns span { width:12px; height:12px; border-radius:50%; background:#d6dde5; }
+.titlebar .btns span.x { background:#e57373; }
+.statusbar { display:flex; align-items:center; gap:12px; padding:10px 18px;
+             background:#ffffff; border-bottom:1px solid #e2e7ee; }
+.chip { display:inline-flex; align-items:center; gap:6px; padding:6px 12px; border-radius:8px;
+        background:#f2f5f8; border:1px solid #e0e6ec; font-size:13px; color:#22303c; }
+.chip b { font-weight:700; }
+.chip .star { color:#8a6d1a; letter-spacing:1px; }
+.body { padding:18px 20px; position:relative; }
+h1.screen-title { font-size:20px; color:#22303c; }
+.sub { font-size:12.5px; color:#68788a; margin-top:4px; }
+.card { background:#fff; border:1px solid #e0e6ec; border-radius:10px; }
+.btn { display:inline-flex; align-items:center; justify-content:center; gap:6px;
+       padding:10px 18px; border-radius:9px; font-size:13.5px; font-weight:600;
+       background:#fff; color:#22303c; border:1px solid #d0d8e0; cursor:default; }
+.btn.primary { background:#1f7a5a; border-color:#1f7a5a; color:#fff; }
+.btn.big { padding:14px 22px; font-size:15px; }
+.btn.danger-soft { color:#c0392b; border-color:#ecc8c4; background:#fdf3f2; }
+.tag { display:inline-block; padding:2px 8px; border-radius:6px; font-size:11.5px; font-weight:600; }
+.tag.warn { background:#fdf3e0; color:#b7791f; }
+.tag.bad  { background:#fdeceb; color:#c0392b; }
+.tag.ok   { background:#e2f1ea; color:#1f7a5a; }
+.tag.gold { background:#f7efd8; color:#8a6d1a; }
+table.grid { width:100%; border-collapse:collapse; font-size:12.5px; background:#fff; }
+table.grid th { text-align:left; font-size:12px; color:#4a5a6a; background:#f0f3f7;
+                padding:8px 10px; border-bottom:1px solid #e0e6ec; white-space:nowrap; }
+table.grid td { padding:7px 10px; border-bottom:1px solid #eef1f5; color:#22303c; white-space:nowrap; }
+table.grid tr:last-child td { border-bottom:none; }
+.num { text-align:right; font-variant-numeric:tabular-nums; }
+.pbar { height:8px; border-radius:5px; background:#e6ebf1; overflow:hidden; }
+.pbar i { display:block; height:100%; background:#1f7a5a; border-radius:5px; }
+.overlay { position:absolute; inset:0; background:rgba(24,36,48,.45); display:flex;
+           align-items:center; justify-content:center; }
+.modal { width:460px; background:#fff; border-radius:12px; padding:20px 22px;
+         box-shadow:0 16px 44px rgba(10,25,40,.35); }
+.modal h2 { font-size:16px; margin-bottom:4px; }
+.modal .m-sub { font-size:12px; color:#68788a; margin-bottom:14px; }
+.footerbar { display:flex; align-items:center; gap:10px; padding:14px 0 2px; }
+.spacer { flex:1; }
+</style></head>
+<body><div class="win">
+  <div class="titlebar"><span class="logo">便</span>
+    <span class="t">便利店大亨 · Demo v0.1.0</span>
+    <span class="btns"><span></span><span></span><span class="x"></span></span></div>
+  
+  <div class="statusbar">
+    <span class="chip">📅 第 12 天 [周三]</span>
+    <span class="chip">💵 现金 <b>¥19,746.80</b></span>
+    <span class="chip">声望 <span class="star">★★★★☆</span> <b>68</b></span>
+    <span class="chip">净资产 <b>¥26,415</b></span>
+    <span class="spacer"></span>
+    <span class="chip" style="color:#68788a">目标 ¥200,000</span>
+  </div>
+  <div class="body">
+ <div style="display:flex; align-items:baseline; gap:14px">
+   <h1 class="screen-title">第 12 天 · 夜间运营</h1>
+   <span class="sub">看看账本，然后结束今天 —— 升级与贷款将在后续版本加入</span>
+ </div>
+ <div style="display:flex; gap:18px; margin-top:14px">
+   <div style="width:300px; display:flex; flex-direction:column; gap:10px">
+     <span class="btn big">📊 报表中心</span>
+     <span class="btn big">🏆 生涯统计</span>
+     <span class="btn big">💾 保存进度</span>
+     <span class="btn primary big">🌙 结束今天 → 第 13 天</span>
+     <span class="btn danger-soft big">⌂ 退出到主菜单</span>
+   </div>
+   <div class="card" style="flex:1; padding:16px 18px">
+     <div style="font-weight:700; font-size:13.5px; margin-bottom:12px">生涯统计（近 30 日）</div>
+     <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px">
+       <div><div class="sub">经营天数</div><b style="font-size:20px">12 天</b></div>
+       <div><div class="sub">累计营收</div><b style="font-size:20px">¥15,860</b></div>
+       <div><div class="sub">累计净利</div><b style="font-size:20px; color:#1e8e5a">+¥1,902</b></div>
+       <div><div class="sub">最好一天</div><b style="font-size:15px">D11 · +¥318</b></div>
+       <div><div class="sub">累计客流</div><b style="font-size:20px">1,286 人</b></div>
+       <div><div class="sub">当前声望</div><b style="font-size:20px">★★★★☆</b></div>
+     </div>
+     <div class="sub" style="margin-top:14px">存档：每日结算后自动保存 · 夜间可手动覆盖</div>
+   </div>
+ </div>
+</div>
+</div></body></html>

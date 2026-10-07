@@ -1,0 +1,45 @@
+# 本仓库跟踪《现实人生模拟器》与《便利店大亨》（三端）两个项目，其余一律忽略
+/*
+!/.gitignore
+!/README.md
+!/LICENSE
+!/reality_life_simulator.py
+!/reality-life-simulator-design.md
+!/reality-life-simulator.html
+!/_shots/
+!/_shots/**
+
+# ===== 便利店大亨（终端 Demo + 设计文档 + 设计稿）=====
+!/convenience-store-tycoon/
+!/convenience-store-tycoon/**
+/convenience-store-tycoon/tools/jdk-*/
+/convenience-store-tycoon/tools/gradle-8.10.2/
+/convenience-store-tycoon/tools/android-sdk/
+/convenience-store-tycoon/tools/wix-local/
+/convenience-store-tycoon/tools/*.zip
+/convenience-store-tycoon/tools/_webprof*/
+/convenience-store-tycoon/tools/_curl_check.txt
+/convenience-store-tycoon/tools/_light_out.txt
+/convenience-store-tycoon/tools/_pkgerr.txt
+/convenience-store-tycoon/tools/_wix_head.txt
+/convenience-store-tycoon/saves/
+/convenience-store-tycoon/**/__pycache__/
+__pycache__/
+*.pyc
+
+# ===== 便利店大亨（Kotlin 三端工程）=====
+!/convenience-store-tycoon-kmp/
+!/convenience-store-tycoon-kmp/**
+/convenience-store-tycoon-kmp/**/build/
+/convenience-store-tycoon-kmp/dist-pc/
+/convenience-store-tycoon-kmp/dist-web/
+/convenience-store-tycoon-kmp/dist-delivery/_msi/
+/convenience-store-tycoon-kmp/dist-delivery/*.msi
+/convenience-store-tycoon-kmp/local.properties
+/convenience-store-tycoon-kmp/.gradle/
+/convenience-store-tycoon-kmp/.kotlin/
+/convenience-store-tycoon-kmp/art/_sheet.html
+
+# 安装包产物通过 GitHub Release 分发，不入仓库
+*.msi
+*.exe

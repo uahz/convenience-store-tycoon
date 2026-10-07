@@ -1,0 +1,81 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+* { margin:0; padding:0; box-sizing:border-box; font-family:"Microsoft YaHei UI","PingFang SC",sans-serif; }
+body { background:#aab4c0; padding:20px; }
+.win { width:1040px; border-radius:12px; overflow:hidden; border:1px solid #b9c3ce;
+       box-shadow:0 18px 50px rgba(20,35,50,.35); background:#eef1f5; }
+.titlebar { height:38px; background:#ffffff; border-bottom:1px solid #e2e7ee;
+            display:flex; align-items:center; padding:0 14px; gap:10px; }
+.logo { width:22px; height:22px; border-radius:6px; background:#1f7a5a; color:#fff;
+        font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; }
+.titlebar .t { font-size:12.5px; color:#4a5a6a; font-weight:600; }
+.titlebar .btns { margin-left:auto; display:flex; gap:6px; }
+.titlebar .btns span { width:12px; height:12px; border-radius:50%; background:#d6dde5; }
+.titlebar .btns span.x { background:#e57373; }
+.statusbar { display:flex; align-items:center; gap:12px; padding:10px 18px;
+             background:#ffffff; border-bottom:1px solid #e2e7ee; }
+.chip { display:inline-flex; align-items:center; gap:6px; padding:6px 12px; border-radius:8px;
+        background:#f2f5f8; border:1px solid #e0e6ec; font-size:13px; color:#22303c; }
+.chip b { font-weight:700; }
+.chip .star { color:#8a6d1a; letter-spacing:1px; }
+.body { padding:18px 20px; position:relative; }
+h1.screen-title { font-size:20px; color:#22303c; }
+.sub { font-size:12.5px; color:#68788a; margin-top:4px; }
+.card { background:#fff; border:1px solid #e0e6ec; border-radius:10px; }
+.btn { display:inline-flex; align-items:center; justify-content:center; gap:6px;
+       padding:10px 18px; border-radius:9px; font-size:13.5px; font-weight:600;
+       background:#fff; color:#22303c; border:1px solid #d0d8e0; cursor:default; }
+.btn.primary { background:#1f7a5a; border-color:#1f7a5a; color:#fff; }
+.btn.big { padding:14px 22px; font-size:15px; }
+.btn.danger-soft { color:#c0392b; border-color:#ecc8c4; background:#fdf3f2; }
+.tag { display:inline-block; padding:2px 8px; border-radius:6px; font-size:11.5px; font-weight:600; }
+.tag.warn { background:#fdf3e0; color:#b7791f; }
+.tag.bad  { background:#fdeceb; color:#c0392b; }
+.tag.ok   { background:#e2f1ea; color:#1f7a5a; }
+.tag.gold { background:#f7efd8; color:#8a6d1a; }
+table.grid { width:100%; border-collapse:collapse; font-size:12.5px; background:#fff; }
+table.grid th { text-align:left; font-size:12px; color:#4a5a6a; background:#f0f3f7;
+                padding:8px 10px; border-bottom:1px solid #e0e6ec; white-space:nowrap; }
+table.grid td { padding:7px 10px; border-bottom:1px solid #eef1f5; color:#22303c; white-space:nowrap; }
+table.grid tr:last-child td { border-bottom:none; }
+.num { text-align:right; font-variant-numeric:tabular-nums; }
+.pbar { height:8px; border-radius:5px; background:#e6ebf1; overflow:hidden; }
+.pbar i { display:block; height:100%; background:#1f7a5a; border-radius:5px; }
+.overlay { position:absolute; inset:0; background:rgba(24,36,48,.45); display:flex;
+           align-items:center; justify-content:center; }
+.modal { width:460px; background:#fff; border-radius:12px; padding:20px 22px;
+         box-shadow:0 16px 44px rgba(10,25,40,.35); }
+.modal h2 { font-size:16px; margin-bottom:4px; }
+.modal .m-sub { font-size:12px; color:#68788a; margin-bottom:14px; }
+.footerbar { display:flex; align-items:center; gap:10px; padding:14px 0 2px; }
+.spacer { flex:1; }
+</style></head>
+<body><div class="win">
+  <div class="titlebar"><span class="logo">便</span>
+    <span class="t">便利店大亨 · Demo v0.1.0</span>
+    <span class="btns"><span></span><span></span><span class="x"></span></span></div>
+  
+  <div class="body">
+ <div style="text-align:center; padding:40px 0 10px">
+   <h1 class="screen-title">选择难度</h1>
+   <div class="sub">三种开局强度，胜利线与经营压力不同</div>
+ </div>
+ <div style="width:760px; margin:18px auto; display:flex; flex-direction:column; gap:12px">
+   <div class="card" style="padding:16px 18px; display:flex; align-items:center; gap:16px">
+     <div style="width:86px"><span class="tag ok">轻松</span></div>
+     <div style="flex:1; font-size:13px; color:#4a5a6a">初始资金 ¥25,000 · 客流 ×1.30 · 房租 ×0.85</div>
+     <div style="font-size:12.5px; color:#68788a">胜利线 ¥150,000</div><span class="btn">选择</span>
+   </div>
+   <div class="card" style="padding:16px 18px; display:flex; align-items:center; gap:16px; border:2px solid #1f7a5a">
+     <div style="width:86px"><span class="tag gold">普通</span></div>
+     <div style="flex:1; font-size:13px; color:#4a5a6a">初始资金 ¥20,000 · 客流 ×1.00 · 房租 ×1.00</div>
+     <div style="font-size:12.5px; color:#68788a">胜利线 ¥200,000</div><span class="btn primary">选择</span>
+   </div>
+   <div class="card" style="padding:16px 18px; display:flex; align-items:center; gap:16px">
+     <div style="width:86px"><span class="tag bad">硬核</span></div>
+     <div style="flex:1; font-size:13px; color:#4a5a6a">初始资金 ¥15,000 · 客流 ×0.85 · 房租 ×1.25</div>
+     <div style="font-size:12.5px; color:#68788a">胜利线 ¥260,000</div><span class="btn">选择</span>
+   </div>
+   <div style="text-align:center; padding-top:8px"><span class="btn" style="padding:8px 26px">返回</span></div>
+ </div>
+</div>
+</div></body></html>

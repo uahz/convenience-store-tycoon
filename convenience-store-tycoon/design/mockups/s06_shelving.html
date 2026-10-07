@@ -1,0 +1,162 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+* { margin:0; padding:0; box-sizing:border-box; font-family:"Microsoft YaHei UI","PingFang SC",sans-serif; }
+body { background:#aab4c0; padding:20px; }
+.win { width:1040px; border-radius:12px; overflow:hidden; border:1px solid #b9c3ce;
+       box-shadow:0 18px 50px rgba(20,35,50,.35); background:#eef1f5; }
+.titlebar { height:38px; background:#ffffff; border-bottom:1px solid #e2e7ee;
+            display:flex; align-items:center; padding:0 14px; gap:10px; }
+.logo { width:22px; height:22px; border-radius:6px; background:#1f7a5a; color:#fff;
+        font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; }
+.titlebar .t { font-size:12.5px; color:#4a5a6a; font-weight:600; }
+.titlebar .btns { margin-left:auto; display:flex; gap:6px; }
+.titlebar .btns span { width:12px; height:12px; border-radius:50%; background:#d6dde5; }
+.titlebar .btns span.x { background:#e57373; }
+.statusbar { display:flex; align-items:center; gap:12px; padding:10px 18px;
+             background:#ffffff; border-bottom:1px solid #e2e7ee; }
+.chip { display:inline-flex; align-items:center; gap:6px; padding:6px 12px; border-radius:8px;
+        background:#f2f5f8; border:1px solid #e0e6ec; font-size:13px; color:#22303c; }
+.chip b { font-weight:700; }
+.chip .star { color:#8a6d1a; letter-spacing:1px; }
+.body { padding:18px 20px; position:relative; }
+h1.screen-title { font-size:20px; color:#22303c; }
+.sub { font-size:12.5px; color:#68788a; margin-top:4px; }
+.card { background:#fff; border:1px solid #e0e6ec; border-radius:10px; }
+.btn { display:inline-flex; align-items:center; justify-content:center; gap:6px;
+       padding:10px 18px; border-radius:9px; font-size:13.5px; font-weight:600;
+       background:#fff; color:#22303c; border:1px solid #d0d8e0; cursor:default; }
+.btn.primary { background:#1f7a5a; border-color:#1f7a5a; color:#fff; }
+.btn.big { padding:14px 22px; font-size:15px; }
+.btn.danger-soft { color:#c0392b; border-color:#ecc8c4; background:#fdf3f2; }
+.tag { display:inline-block; padding:2px 8px; border-radius:6px; font-size:11.5px; font-weight:600; }
+.tag.warn { background:#fdf3e0; color:#b7791f; }
+.tag.bad  { background:#fdeceb; color:#c0392b; }
+.tag.ok   { background:#e2f1ea; color:#1f7a5a; }
+.tag.gold { background:#f7efd8; color:#8a6d1a; }
+table.grid { width:100%; border-collapse:collapse; font-size:12.5px; background:#fff; }
+table.grid th { text-align:left; font-size:12px; color:#4a5a6a; background:#f0f3f7;
+                padding:8px 10px; border-bottom:1px solid #e0e6ec; white-space:nowrap; }
+table.grid td { padding:7px 10px; border-bottom:1px solid #eef1f5; color:#22303c; white-space:nowrap; }
+table.grid tr:last-child td { border-bottom:none; }
+.num { text-align:right; font-variant-numeric:tabular-nums; }
+.pbar { height:8px; border-radius:5px; background:#e6ebf1; overflow:hidden; }
+.pbar i { display:block; height:100%; background:#1f7a5a; border-radius:5px; }
+.overlay { position:absolute; inset:0; background:rgba(24,36,48,.45); display:flex;
+           align-items:center; justify-content:center; }
+.modal { width:460px; background:#fff; border-radius:12px; padding:20px 22px;
+         box-shadow:0 16px 44px rgba(10,25,40,.35); }
+.modal h2 { font-size:16px; margin-bottom:4px; }
+.modal .m-sub { font-size:12px; color:#68788a; margin-bottom:14px; }
+.footerbar { display:flex; align-items:center; gap:10px; padding:14px 0 2px; }
+.spacer { flex:1; }
+</style></head>
+<body><div class="win">
+  <div class="titlebar"><span class="logo">便</span>
+    <span class="t">便利店大亨 · Demo v0.1.0</span>
+    <span class="btns"><span></span><span></span><span class="x"></span></span></div>
+  
+  <div class="statusbar">
+    <span class="chip">📅 第 12 天 [周三]</span>
+    <span class="chip">💵 现金 <b>¥19,746.80</b></span>
+    <span class="chip">声望 <span class="star">★★★★☆</span> <b>68</b></span>
+    <span class="chip">净资产 <b>¥26,415</b></span>
+    <span class="spacer"></span>
+    <span class="chip" style="color:#68788a">目标 ¥200,000</span>
+  </div>
+  <div class="body">
+ <div style="display:flex; align-items:baseline; gap:14px">
+   <h1 class="screen-title">货架陈列</h1>
+   <span class="sub">选中右侧仓库商品 → 点槽位上的「上架」；只有上架商品才会被顾客看到</span>
+ </div>
+ <div style="display:flex; gap:14px; margin-top:12px">
+   <div style="flex:1.5; display:grid; grid-template-columns:1fr 1fr; gap:10px">
+   <div class="card" style="padding:12px 14px">
+     <div style="display:flex; align-items:center; gap:8px">
+       <b style="font-size:13px">槽 1</b><span class="tag gold">★ 黄金位</span>
+       <span class="spacer"></span><span class="sub">30/36 件</span>
+     </div>
+     <div style="font-size:15px; font-weight:700; margin:6px 0">矿泉水</div>
+     <div class="pbar"><i style="width:83%"></i></div>
+     <div style="display:flex; gap:8px; margin-top:10px">
+       <span class="btn" style="padding:6px 12px; font-size:12px">上架</span>
+       <span class="btn" style="padding:6px 12px; font-size:12px">取下</span>
+     </div>
+   </div>
+   <div class="card" style="padding:12px 14px">
+     <div style="display:flex; align-items:center; gap:8px">
+       <b style="font-size:13px">槽 2</b><span class="tag">普通位</span>
+       <span class="spacer"></span><span class="sub">36/36 件</span>
+     </div>
+     <div style="font-size:15px; font-weight:700; margin:6px 0">可乐</div>
+     <div class="pbar"><i style="width:100%"></i></div>
+     <div style="display:flex; gap:8px; margin-top:10px">
+       <span class="btn" style="padding:6px 12px; font-size:12px">上架</span>
+       <span class="btn" style="padding:6px 12px; font-size:12px">取下</span>
+     </div>
+   </div>
+   <div class="card" style="padding:12px 14px">
+     <div style="display:flex; align-items:center; gap:8px">
+       <b style="font-size:13px">槽 3</b><span class="tag">普通位</span>
+       <span class="spacer"></span><span class="sub">24/36 件</span>
+     </div>
+     <div style="font-size:15px; font-weight:700; margin:6px 0">红烧牛肉面</div>
+     <div class="pbar"><i style="width:66%"></i></div>
+     <div style="display:flex; gap:8px; margin-top:10px">
+       <span class="btn" style="padding:6px 12px; font-size:12px">上架</span>
+       <span class="btn" style="padding:6px 12px; font-size:12px">取下</span>
+     </div>
+   </div>
+   <div class="card" style="padding:12px 14px">
+     <div style="display:flex; align-items:center; gap:8px">
+       <b style="font-size:13px">槽 4</b><span class="tag gold">★ 黄金位</span>
+       <span class="spacer"></span><span class="sub">12/36 件</span>
+     </div>
+     <div style="font-size:15px; font-weight:700; margin:6px 0">金枪鱼三明治</div>
+     <div class="pbar"><i style="width:33%"></i></div>
+     <div style="display:flex; gap:8px; margin-top:10px">
+       <span class="btn" style="padding:6px 12px; font-size:12px">上架</span>
+       <span class="btn" style="padding:6px 12px; font-size:12px">取下</span>
+     </div>
+   </div>
+   <div class="card" style="padding:12px 14px">
+     <div style="display:flex; align-items:center; gap:8px">
+       <b style="font-size:13px">槽 5</b><span class="tag">普通位</span>
+       <span class="spacer"></span><span class="sub">18/36 件</span>
+     </div>
+     <div style="font-size:15px; font-weight:700; margin:6px 0">全麦面包</div>
+     <div class="pbar"><i style="width:50%"></i></div>
+     <div style="display:flex; gap:8px; margin-top:10px">
+       <span class="btn" style="padding:6px 12px; font-size:12px">上架</span>
+       <span class="btn" style="padding:6px 12px; font-size:12px">取下</span>
+     </div>
+   </div>
+   <div class="card" style="padding:12px 14px">
+     <div style="display:flex; align-items:center; gap:8px">
+       <b style="font-size:13px">槽 6</b><span class="tag">普通位</span>
+       <span class="spacer"></span><span class="sub">0/36 件</span>
+     </div>
+     <div style="font-size:15px; font-weight:700; margin:6px 0">（空槽位）</div>
+     <div class="pbar"><i style="width:0%"></i></div>
+     <div style="display:flex; gap:8px; margin-top:10px">
+       <span class="btn" style="padding:6px 12px; font-size:12px">上架</span>
+       <span class="btn" style="padding:6px 12px; font-size:12px">取下</span>
+     </div>
+   </div>
+   </div>
+   <div style="flex:1; display:flex; flex-direction:column; gap:12px">
+     <div class="card" style="padding:14px 16px; flex:1">
+       <div style="font-weight:700; font-size:13.5px; margin-bottom:8px">仓库（未上架）</div>
+       <table class="grid">
+         <tr><th>商品</th><th class="num">件数</th><th>最早到期</th></tr>
+         <tr><td>可乐</td><td class="num">12</td><td><span class="tag ok">180天</span></td></tr>
+         <tr><td>全麦面包</td><td class="num">12</td><td><span class="tag warn">剩2天</span></td></tr>
+         <tr><td>曲奇饼干</td><td class="num">10</td><td><span class="tag ok">120天</span></td></tr>
+         <tr><td>薄荷口香糖</td><td class="num">20</td><td><span class="tag ok">365天</span></td></tr>
+         <tr><td>抽纸</td><td class="num">40</td><td><span class="tag ok">长期</span></td></tr>
+       </table>
+       <div class="sub" style="margin-top:10px">剩余仓库容量 158 件 · 单槽容量 36 件</div>
+     </div>
+     <span class="btn" style="justify-content:center">← 返回晨间准备</span>
+   </div>
+ </div>
+</div>
+</div></body></html>

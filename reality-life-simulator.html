@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>现实人生模拟器</title>
+<style>
+/* ============ ANTI-DESIGN（反设计）风格层 ============ */
+*{margin:0;padding:0;box-sizing:border-box;border-radius:0}
+body{font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif;background:#FFFFFF;color:#000;min-height:100vh}
+#app{max-width:1180px;margin:0 auto;padding:18px}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+h1,h2,h3{font-weight:900}
+button:focus-visible{outline:4px solid #0000FF;outline-offset:2px}
+/* 按钮：粗黑边框 + 硬偏移阴影 + 生硬 hover */
+.btn{background:#FF0000;color:#fff;border:4px solid #000;padding:10px 18px;font-size:15px;font-weight:900;text-transform:uppercase;box-shadow:4px 4px 0 #000;transition:all .1s linear}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 #000;background:#FFFF00;color:#000}
+.btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 #000}
+.btn:disabled{opacity:.35;cursor:not-allowed;transform:none;box-shadow:2px 2px 0 #000}
+.btn.small{padding:6px 12px;font-size:13px}
+/* 卡片：非对称粗边框 + 硬阴影 */
+.card{background:#fff;border:5px solid #000;border-right-width:8px;border-bottom-width:8px;padding:16px;box-shadow:8px 8px 0 #000}
+.card h3{font-size:16px;margin-bottom:10px;text-transform:uppercase}
+.dim{color:#6B7280;font-size:12px;font-weight:700}
+/* 标题页：黄色巨幅 + 旋转大标题 + 硬偏移文字阴影 */
+.title-wrap{min-height:92vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden;background:#FFFF00;border-bottom:8px solid #000}
+.title-emoji{font-size:52px;letter-spacing:8px}
+.title-wrap h1{font-size:clamp(44px,9vw,110px);margin:14px 0 8px;color:#000;letter-spacing:6px;transform:rotate(-2deg);text-shadow:6px 6px 0 #FF0000;line-height:1.1}
+.title-wrap .sub{font-size:16px;color:#000;font-weight:900;margin-bottom:30px;transform:rotate(1deg)}
+.title-wrap .btns{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+.title-wrap .hint{margin-top:26px;font-size:12px;color:#000;font-weight:700}
+.float-e{position:absolute;font-size:32px;animation:fl 4s steps(8) infinite}
+@keyframes fl{0%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-24px) rotate(4deg)}100%{transform:translateY(0) rotate(-5deg)}}
+/* 创建页 */
+.crate{display:grid;grid-template-columns:300px 1fr;gap:16px;align-items:start}
+.crate .prev{position:sticky;top:18px;text-align:center}
+.prev .avbox{background:#00FFFF;border:4px solid #000;padding:14px;margin-bottom:12px;box-shadow:6px 6px 0 #000;transform:rotate(-1deg)}
+.sec{margin-bottom:18px}
+.sec .lab{font-weight:900;font-size:14px;margin-bottom:8px;text-transform:uppercase}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:3px solid #000;background:#fff;padding:7px 14px;font-size:13.5px;font-weight:700;transition:all .1s linear}
+.chip:hover{background:#FFFF00}
+.chip.sel{background:#0000FF;color:#fff;font-weight:900;box-shadow:3px 3px 0 #000}
+.sw{display:flex;flex-wrap:wrap;gap:8px}
+.sw b{width:30px;height:30px;border:3px solid #000;cursor:pointer;display:inline-block;transition:all .1s linear}
+.sw b.sel{box-shadow:4px 4px 0 #FF0000;transform:translate(-2px,-2px)}
+input[type=text]{border:4px solid #000;padding:9px 14px;font-size:15px;width:200px;font-family:inherit;color:#000;background:#fff;font-weight:700}
+input[type=text]:focus{outline:none;border-color:#0000FF;box-shadow:4px 4px 0 #0000FF}
+.talent{background:#FFFF00;border:4px solid #000;padding:10px 14px;margin-bottom:8px;box-shadow:4px 4px 0 #000;transform:rotate(-.5deg)}
+.talent b{color:#000}
+/* 游戏主界面 */
+.topbar{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-bottom:14px}
+.who{display:flex;align-items:center;gap:10px;min-width:190px}
+.who .nm{font-weight:900;font-size:18px}
+.stats{display:grid;grid-template-columns:repeat(5,minmax(90px,1fr));gap:8px 14px;flex:1;min-width:320px}
+.stat{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:900}
+.stat .lb{width:52px}
+.bar{flex:1;height:14px;background:#fff;border:2px solid #000;overflow:hidden}
+.bar i{display:block;height:100%;transition:none}
+.apdots{display:flex;gap:5px;align-items:center;font-size:13px;font-weight:900}
+.dot{width:14px;height:14px;border:2px solid #000;background:#fff;display:inline-block}
+.dot.on{background:#FF0000}
+.cols{display:grid;grid-template-columns:270px 1fr 300px;gap:16px;align-items:start}
+@media(max-width:980px){.cols{grid-template-columns:1fr}.crate{grid-template-columns:1fr}}
+.me-tags{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.tag{background:#00FFFF;color:#000;border:2px solid #000;padding:3px 9px;font-size:11.5px;font-weight:900;display:inline-block;transform:rotate(-1deg)}
+.tag.mint{background:#FF00FF;transform:rotate(1deg)}
+.kv{display:flex;justify-content:space-between;font-size:13px;font-weight:700;padding:5px 0;border-bottom:2px solid #000}
+.kv b{font-weight:900}
+.moneytag{background:#000;color:#00FF00;padding:3px 10px;border:3px solid #000;font-weight:900;font-size:15px}
+.fametag{background:#FFFF00;border:3px solid #000;padding:3px 10px;font-weight:900;font-size:14px}
+.grid-actions{display:grid;grid-template-columns:repeat(auto-fill,minmax(152px,1fr));gap:12px}
+.act-btn{display:flex;flex-direction:column;align-items:flex-start;gap:3px;background:#fff;border:4px solid #000;border-right-width:6px;border-bottom-width:6px;padding:10px 12px;text-align:left;font-weight:700;box-shadow:4px 4px 0 #000;transition:all .1s linear}
+.act-btn:hover{background:#FFFF00;transform:translate(-2px,-2px);box-shadow:6px 6px 0 #FF0000}
+.act-btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 #000}
+.act-btn:disabled{opacity:.4;transform:none;box-shadow:2px 2px 0 #000;background:#fff}
+.act-btn .ic{font-size:22px}
+.act-btn .n{font-weight:900;font-size:14px}
+.act-btn .d{font-size:11px;color:#6B7280;line-height:1.35;font-weight:700}
+.navrow{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.rel-item{display:flex;align-items:center;gap:8px;padding:6px 4px;border-bottom:2px solid #000;font-size:13px;font-weight:700}
+.rel-item .re{font-size:20px}
+.rel-item .mini{flex:1;height:10px;background:#fff;border:2px solid #000;overflow:hidden}
+.rel-item .mini i{display:block;height:100%;background:#FF0000}
+.log{max-height:300px;overflow:auto}
+.log-item{font-size:12.5px;padding:6px 4px;border-bottom:2px solid #000;line-height:1.5;font-weight:700}
+.log-item .age{background:#000;color:#FFFF00;font-size:11px;margin-right:6px;padding:1px 5px;font-weight:900;display:inline-block;transform:rotate(-2deg)}
+/* 弹窗：纯黑遮罩 + 白面板红硬阴影 */
+.overlay{position:fixed;inset:0;background:#000;display:flex;align-items:center;justify-content:center;z-index:50;padding:16px}
+.modal{background:#fff;border:6px solid #000;border-right-width:9px;border-bottom-width:9px;max-width:540px;width:100%;max-height:88vh;overflow:auto;padding:24px;box-shadow:12px 12px 0 #FF0000}
+.modal .m-ic{font-size:42px}
+.modal h3{font-size:20px;margin:8px 0 6px}
+.modal .txt{font-size:14px;line-height:1.7;font-weight:700;margin-bottom:8px}
+.choice{display:block;width:100%;text-align:left;background:#fff;border:4px solid #000;padding:12px 14px;margin-top:10px;font-size:14px;font-weight:700;transition:all .1s linear}
+.choice:hover{background:#0000FF;color:#fff}
+.choice:disabled{opacity:.4}
+.choice small{display:block;color:#6B7280;font-size:11.5px;margin-top:2px;font-weight:700}
+.choice:hover small{color:#fff}
+/* 结算 */
+.end-wrap{max-width:760px;margin:0 auto;padding:30px 10px;text-align:center}
+.grade{width:130px;height:130px;border:6px solid #000;color:#fff;font-size:64px;font-weight:900;display:flex;align-items:center;justify-content:center;margin:16px auto;box-shadow:10px 10px 0 #000;transform:rotate(-3deg)}
+.kw{font-size:22px;font-weight:900;margin:6px 0;transform:rotate(-1deg)}
+.sumgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin:18px 0}
+.sumgrid .card{padding:12px}
+.sumgrid .v{font-size:20px;font-weight:900;color:#0000FF}
+.ach-chip{display:inline-block;background:#FFFF00;border:3px solid #000;color:#000;padding:4px 12px;font-size:12.5px;font-weight:900;margin:3px}
+.tl-item{text-align:left;font-size:13px;padding:7px 10px;border-bottom:2px solid #000;font-weight:700}
+.tl-item b{background:#FF0000;color:#fff;margin-right:8px;padding:1px 6px;display:inline-block;transform:rotate(-2deg)}
+.chartbox{border:5px solid #000;border-right-width:8px;border-bottom-width:8px;box-shadow:8px 8px 0 #000;background:#fff;padding:10px;margin-top:14px;text-align:left}
+.chartbox h3{margin-bottom:8px}
+#toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%) translateY(20px);background:#FF0000;color:#fff;border:4px solid #000;box-shadow:6px 6px 0 #000;padding:10px 22px;opacity:0;transition:all .1s linear;z-index:99;pointer-events:none;font-size:14px;font-weight:900}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="toast"></div>
+<script>
+/* ================= 工具 ================= */
+const $=s=>document.querySelector(s);
+const rnd=n=>Math.floor(Math.random()*n);
+const pick=a=>a[rnd(a.length)];
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const fmtM=n=>{n=Math.round(n);return Math.abs(n)>=10000?((n/10000).toFixed(1).replace('.0',''))+'万':'¥'+n};
+let toastTimer=null;
+function toast(m){const t=$('#toast');t.textContent=m;t.className='show';clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.className='',1800);}
+
+/* ================= 静态数据 ================= */
+const SKINS=['#FFE3C9','#F5C99B','#E3AC78','#B97F58'];
+const HAIRC=[{c:'#3A2A20',n:'深棕'},{c:'#6B4226',n:'栗色'},{c:'#B06F3C',n:'浅棕'},{c:'#E8C07D',n:'亚麻'}];
+const OUTFITS=['#FF0000','#0000FF','#00FF00','#FF00FF','#00FFFF','#FFFF00'];
+const HAIRSTYLES=[{id:'short',n:'清爽短发'},{id:'long',n:'柔顺长发'},{id:'bun',n:'俏皮丸子'},{id:'curly',n:'蓬蓬卷发'}];
+const GENDERS=[{id:'m',n:'男孩'},{id:'f',n:'女孩'}];
+const TRAITS=[
+ {id:'sunny',n:'开朗',d:'心情更容易变好，社交更加分'},
+ {id:'shy',n:'内向',d:'独处学习更专注（知识+），社交加成少'},
+ {id:'dili',n:'勤奋',d:'学习成长 +30%'},
+ {id:'opt',n:'乐观',d:'心态稳，坏消息影响小'},
+ {id:'care',n:'细心',d:'考试更容易超常发挥'},
+ {id:'adven',n:'冒险家',d:'机遇更多，偶尔翻车'},
+ {id:'art',n:'艺术细胞',d:'魅力成长 +30%'},
+ {id:'sport',n:'运动健将',d:'体能成长 +30%'}];
+const TALENTS=[
+ {id:'memory',n:'过目不忘',d:'知识成长 +60%'},
+ {id:'strong',n:'天生活力',d:'体能成长 +60%'},
+ {id:'pretty',n:'人气脸庞',d:'初始魅力高，社交更讨喜'},
+ {id:'rich',n:'家境优渥',d:'家庭存款 +3万'},
+ {id:'biz',n:'生意头脑',d:'理财收益更高'},
+ {id:'lucky',n:'幸运星',d:'每年有几率收到意外小惊喜'},
+ {id:'social',n:'社牛体质',d:'社交行动效果大幅提升'},
+ {id:'night',n:'精力充沛',d:'每月行动点 +1'},
+ {id:'kid',n:'玩家心态',d:'娱乐放松效果更好'},
+ {id:'all',n:'全面发展',d:'所有成长 +15%'}];
+const FAMILIES=[
+ {n:'节俭家庭',d:'日子紧巴巴，但笑声不少',money:1000,mood:5},
+ {n:'普通家庭',d:'爸妈工资稳定，温馨平常',money:8000},
+ {n:'小康家庭',d:'吃穿不愁，偶尔全家旅行',money:30000},
+ {n:'富裕家庭',d:'从小见世面，资源多多',money:90000,fame:10}];
+const CAREERS=[
+ {id:'code',icon:'💻',ladder:[{n:'初级程序员',pay:8000,req:{major:'cs'}},{n:'高级工程师',pay:15000,req:{smart:85,y:2}},{n:'技术总监',pay:28000,req:{smart:95,fame:55,y:5}}]},
+ {id:'doctor',icon:'🩺',ladder:[{n:'住院医师',pay:9000,req:{major:'med'}},{n:'主治医师',pay:16000,req:{smart:88,y:3}},{n:'主任医师',pay:26000,req:{smart:95,fame:65,y:6}}]},
+ {id:'teacher',icon:'📚',ladder:[{n:'人民教师',pay:6000,req:{major:'edu'}},{n:'资深教师',pay:10000,req:{smart:82,fame:45,y:3}},{n:'教导主任',pay:16000,req:{fame:60,y:6}}]},
+ {id:'artist',icon:'🎨',ladder:[{n:'助理设计师',pay:5500,req:{major:'art'}},{n:'独立插画师',pay:12000,req:{fame:50,y:3}},{n:'知名艺术家',pay:25000,req:{fame:80,y:8}}]},
+ {id:'coach',icon:'⚽',ladder:[{n:'健身教练',pay:5000,req:{fit:70}},{n:'明星私教',pay:10000,req:{fit:85,y:2}},{n:'门店经理',pay:18000,req:{charm:65,fame:50,y:5}}]},
+ {id:'sales',icon:'💼',ladder:[{n:'销售专员',pay:5000,req:{charm:55}},{n:'销售经理',pay:10000,req:{charm:70,fame:45,y:3}},{n:'区域总监',pay:20000,req:{fame:65,y:6}}]},
+ {id:'food',icon:'🍔',ladder:[{n:'餐饮服务员',pay:3500,req:{}},{n:'门店领班',pay:6000,req:{charm:45,y:1}},{n:'门店店长',pay:10000,req:{fame:40,y:3}},{n:'餐厅合伙人',pay:20000,req:{money:150000,fame:60,y:5}}]},
+ {id:'barista',icon:'☕',ladder:[{n:'咖啡师',pay:4000,req:{charm:40}},{n:'首席咖啡师',pay:7000,req:{charm:60,y:2}},{n:'咖啡店店长',pay:12000,req:{fame:45,y:4}}]},
+ {id:'courier',icon:'📦',ladder:[{n:'快递员',pay:4500,req:{fit:55}},{n:'快递站长',pay:7500,req:{fit:70,y:2}},{n:'网点经理',pay:12000,req:{fame:40,y:5}}]},
+ {id:'basic',icon:'🏪',ladder:[{n:'便利店员',pay:3000,req:{}},{n:'仓储组长',pay:4500,req:{fit:60,y:1}},{n:'区域督导',pay:8000,req:{fame:35,y:4}}]}];
+const MAJORS=[{id:'cs',n:'计算机'},{id:'med',n:'医学'},{id:'edu',n:'师范'},{id:'art',n:'美术'},{id:'biz',n:'商科'},{id:'pe',n:'体育'}];
+const PARTTIME=[{n:'发传单',pay:400},{n:'餐厅小时工',pay:700},{n:'家教助理',pay:900,req:{smart:55}}];
+const NPCNAMES=['小雨','阿哲','婷婷','大伟','小雅','阿凯','悦悦','子豪','小林','静静','老王','小美','阿杰','圆圆','大力','朵朵'];
+const BABYNAMES=['豆豆','糖糖','小满','乐乐','团团','安安'];
+const ACHV={job:{n:'初入职场',d:'找到第一份工作'},grad:{n:'学有所成',d:'大学毕业'},marry:{n:'佳偶天成',d:'步入婚姻'},baby:{n:'添丁之喜',d:'迎来宝宝'},house:{n:'安居乐业',d:'拥有自己的家'},rich50:{n:'小有积蓄',d:'总资产达50万'},rich200:{n:'财富自由',d:'总资产达200万'},fame:{n:'家喻户晓',d:'声望达到80'},zhuangyuan:{n:'金榜题名',d:'高考名列前茅'},health:{n:'健康之星',d:'70岁仍硬朗'},bond:{n:'情深意重',d:'家人感情深厚'}};
+
+/* ================= 音效与配乐 ================= */
+let AC=null;
+function beep(f,d,t,v){if(!S||!S.sound)return;try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();const o=AC.createOscillator(),g=AC.createGain();o.type=t||'sine';o.frequency.value=f;g.gain.value=v||0.05;o.connect(g);g.connect(AC.destination);const now=AC.currentTime;g.gain.setValueAtTime(g.gain.value,now);g.gain.exponentialRampToValueAtTime(0.001,now+d);o.start(now);o.stop(now+d);}catch(e){}}
+const snd={click:()=>beep(660,0.07),good:()=>{beep(523,0.09);setTimeout(()=>beep(784,0.12),90);},bad:()=>{beep(330,0.12);setTimeout(()=>beep(262,0.16),110);},event:()=>beep(392,0.16,'triangle'),up:()=>{[523,659,784,1047].forEach((f,i)=>setTimeout(()=>beep(f,0.1),i*90));}};
+/* 怀旧配乐：C 大调五声音阶旋律循环（温情略带怀旧），triangle 波形极低音量 */
+let bgmTimer=null,bgmStep=0;
+const BGM_SEQ=[[659,2],[784,2],[880,3],[784,2],[659,2],[523,2],[587,2],[659,4],[0,2],[523,2],[587,2],[659,2],[784,2],[880,2],[1047,4],[880,2],[784,2],[659,2],[587,2],[523,4],[0,2]];
+function bgmTick(){if(!S||!S.sound||S.bgm===false)return;const n=BGM_SEQ[bgmStep%BGM_SEQ.length];bgmStep++;if(n[0])beep(n[0],0.4,'triangle',0.022);}
+function startBgm(){if(bgmTimer||typeof setInterval==='undefined')return;bgmTimer=setInterval(bgmTick,440);}
+
+/* ================= 头像 ================= */
+function avatarSVG(p,size){
+ const skin=SKINS[p.skin],hc=HAIRC[p.hairC].c,oc=OUTFITS[p.outfit];
+ const mood=p.stats?p.stats.mood:70;
+ let hair='';
+ if(p.hair===0)hair='<path d="M22,46 Q24,15 50,15 Q76,15 78,46 Q70,28 50,28 Q30,28 22,46 Z" fill="'+hc+'"/>';
+ else if(p.hair===1)hair='<path d="M22,46 Q24,15 50,15 Q76,15 78,46 Q70,28 50,28 Q30,28 22,46 Z" fill="'+hc+'"/><path d="M22,44 Q17,70 21,88 L32,86 Q28,66 30,48 Z" fill="'+hc+'"/><path d="M78,44 Q83,70 79,88 L68,86 Q72,66 70,48 Z" fill="'+hc+'"/>';
+ else if(p.hair===2)hair='<circle cx="50" cy="12" r="9" fill="'+hc+'"/><path d="M22,46 Q24,15 50,15 Q76,15 78,46 Q70,28 50,28 Q30,28 22,46 Z" fill="'+hc+'"/>';
+ else hair='<circle cx="34" cy="26" r="11" fill="'+hc+'"/><circle cx="50" cy="18" r="12" fill="'+hc+'"/><circle cx="66" cy="26" r="11" fill="'+hc+'"/><circle cx="26" cy="38" r="9" fill="'+hc+'"/><circle cx="74" cy="38" r="9" fill="'+hc+'"/>';
+ let mouth;
+ if(mood>=65)mouth='<path d="M42,57 Q50,65 58,57" stroke="#000" stroke-width="2.5" fill="none" stroke-linecap="round"/>';
+ else if(mood>=35)mouth='<path d="M44,60 L56,60" stroke="#000" stroke-width="2.5" stroke-linecap="round"/>';
+ else mouth='<path d="M42,62 Q50,55 58,62" stroke="#000" stroke-width="2.5" fill="none" stroke-linecap="round"/>';
+ return '<svg viewBox="0 0 100 112" width="'+size+'" height="'+Math.round(size*1.12)+'"><circle cx="50" cy="50" r="48" fill="#FFFF00" stroke="#000" stroke-width="3"/><rect x="28" y="80" width="44" height="34" fill="'+oc+'" stroke="#000" stroke-width="3"/><ellipse cx="50" cy="48" rx="26" ry="27" fill="'+skin+'" stroke="#000" stroke-width="2.5"/>'+hair+'<circle cx="41" cy="48" r="3" fill="#000"/><circle cx="59" cy="48" r="3" fill="#000"/><circle cx="34" cy="55" r="3.5" fill="#FF00FF" opacity="0.5"/><circle cx="66" cy="55" r="3.5" fill="#FF00FF" opacity="0.5"/>'+mouth+'</svg>';
+}
+
+/* ================= 状态与存档 ================= */
+const KEY='lifeSimSave1';
+let S=null;
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+function hasSave(){try{return !!localStorage.getItem(KEY);}catch(e){return false;}}
+function loadSave(){try{const d=localStorage.getItem(KEY);if(!d)return false;S=JSON.parse(d);S.auto=false;if(S.bgm===undefined)S.bgm=true;if(S.over){render();return true;}S.screen='game';render();return true;}catch(e){return false;}}
+function boot(){S={v:1,sound:true,bgm:true,screen:'title',over:false,auto:false,queue:[],cur:null,p:null,pop:null,popIdx:0};render();}
+
+/* ================= 玩家助手 ================= */
+function stageOf(a){return a<12?'child':a<18?'teen':a<60?'adult':'senior';}
+function hasTr(p,id){return p.traits.includes(id);}
+function hasTal(p,id){return p.talents.includes(id);}
+function gm(p,k){let m=1;if(hasTal(p,'all'))m+=0.15;
+ if(k==='smart'&&hasTal(p,'memory'))m+=0.6;
+ if(k==='fit'&&hasTal(p,'strong'))m+=0.6;
+ if(k==='charm'&&hasTal(p,'pretty'))m+=0.2;
+ if(k==='smart'&&hasTr(p,'dili'))m+=0.3;
+ if(k==='fit'&&hasTr(p,'sport'))m+=0.3;
+ if(k==='charm'&&hasTr(p,'art'))m+=0.3;
+ if(k==='smart'&&hasTr(p,'shy'))m+=0.15;
+ return m;}
+function stg(p,k,v){p.stats[k]=clamp(Math.round(p.stats[k]+v*gm(p,k)),0,100);}
+function sst(p,k,v){p.stats[k]=clamp(p.stats[k]+v,0,100);}
+function mny(p,v){p.money=Math.max(0,p.money+v);}
+function fameV(p,v){p.fame=clamp(p.fame+v,0,100);}
+function glog(p,ic,t){p.log.unshift({age:p.age,m:p.month,ic,t});if(p.log.length>140)p.log.pop();}
+function tl(p,t){p.timeline.push({age:p.age,t});}
+function ach(p,id){if(!p.ach.includes(id)){p.ach.push(id);glog(p,'🏆','解锁成就【'+ACHV[id].n+'】！');snd.up();}}
+function assets(p){return p.money+p.bank+p.fund;}
+function npcBy(p,part){return p.npcs.find(n=>n.name.indexOf(part)>=0);}
+function bondN(p,part,v){const n=npcBy(p,part);if(n)n.bond=clamp(n.bond+v,0,100);}
+function addNPC(p,o){if(!p.npcs.find(n=>n.name===o.name)){p.npcs.push(o);glog(p,o.ico,'你认识了新朋友：'+o.name+'。');}}
+function uniqName(p){const used=p.npcs.map(n=>n.name);const pool=NPCNAMES.filter(n=>used.indexOf(n)<0);return pool.length?pick(pool):pick(NPCNAMES)+pick(['二世','小','阿']);}
+function reqMet(p,req){return (!req.major||req.major===p.major)&&(!req.smart||p.stats.smart>=req.smart)&&(!req.fit||p.stats.fit>=req.fit)&&(!req.charm||p.stats.charm>=req.charm);}
+function promoMet(p,n){const r=n.req;return (!r.smart||p.stats.smart>=r.smart)&&(!r.fit||p.stats.fit>=r.fit)&&(!r.charm||p.stats.charm>=r.charm)&&(!r.fame||p.fame>=r.fame)&&(!r.y||p.yearsLvl>=r.y)&&(!r.money||assets(p)>=r.money);}
+function canJob(p){return !p.job&&!p.pension&&['社会','职校毕业','大学毕业'].includes(p.edu);}
+function eligibleOffers(p){return CAREERS.filter(c=>reqMet(p,c.ladder[0].req));}
+function careerOf(p){return p.job?CAREERS.find(c=>c.id===p.job):null;}
+
+/* ================= 行动定义 ================= */
+function buildActions(p){
+ const L=[];const st=stageOf(p.age);
+ const A=(id,ic,n,d,fn)=>L.push({id,ic,n,d,fn});
+ if(st==='child'){
+  A('study','📖','认真学习','知识成长，考试更稳',()=>{stg(p,'smart',3);sst(p,'mood',-1);return '你认真完成了一天的功课，进步看得见。';});
+  A('play','🎠','出去玩耍','心情+4，体能+1',()=>{stg(p,'fit',1);sst(p,'mood',4);return '你在外面玩得满头大汗，笑得像个小太阳。';});
+  A('hobby','🎨','培养兴趣','魅力+2，心情+1',()=>{stg(p,'charm',2);sst(p,'mood',1);return '你在兴趣班里做了个小作品，被贴上了展示墙。';});
+  A('family','👨‍👩‍👧','陪陪家人','父母好感+4，心情+2',()=>{bondN(p,'爸爸',4);bondN(p,'妈妈',4);sst(p,'mood',2);return '你和爸妈一起度过了温馨的时光。';});
+  A('rest','😴','好好休息','健康+2，心情+1',()=>{sst(p,'health',2);sst(p,'mood',1);return '你睡了个香甜的懒觉，精神满满。';});
+ }else if(st==='teen'){
+  A('study','📖','用功读书','知识成长，考试更稳',()=>{stg(p,'smart',3);sst(p,'mood',-1);return '你埋头刷完一套题，感觉脑子更好使了。';});
+  A('exercise','🏃','锻炼身体','体能+3，健康+1',()=>{stg(p,'fit',3);sst(p,'health',1);return '你在操场上奔跑跳跃，身体越来越棒。';});
+  A('fun','🎮','放松一下','花点小钱，心情+4',()=>{if(p.money<100)return '钱包空空，还是先攒点零花钱吧。';mny(p,-100);sst(p,'mood',hasTal(p,'kid')?6:4);return '你痛痛快快地玩了一场，烦恼一扫而空。';});
+  A('hobby','🎨','发展爱好','魅力+2，心情+1',()=>{stg(p,'charm',2);sst(p,'mood',1);return '你坚持练习爱好，作品越来越有样子了。';});
+  A('family','👨‍👩‍👧','陪陪家人','父母好感+4，心情+2',()=>{bondN(p,'爸爸',4);bondN(p,'妈妈',4);sst(p,'mood',2);return '一家人吃了顿热乎饭，聊了好多学校趣事。';});
+  A('rest','😴','好好休息','健康+2，心情+1',()=>{sst(p,'health',2);sst(p,'mood',1);return '你补了个好觉，整个人都清爽了。';});
+  if(p.age>=16)A('part','🧺','周末兼职','赚零花钱，心情-2',()=>{const o=PARTTIME.filter(x=>!x.req||p.stats.smart>=x.req.smart).pop();p.money+=o.pay;sst(p,'mood',-2);sst(p,'health',-1);return '你周末去'+o.n+'，赚了 '+fmtM(o.pay)+' 零花钱。';});
+ }else if(st==='adult'){
+  A('study','📖','进修学习','知识+3，为晋升蓄力',()=>{stg(p,'smart',3);return '你下班后坚持学习，专业能力又上台阶。';});
+  A('exercise','🏃','锻炼身体','体能+2，健康+2',()=>{stg(p,'fit',2);sst(p,'health',2);return '你挥汗如雨，感觉身体轻盈了不少。';});
+  A('fun','🎉','娱乐放松','花200元，心情+5',()=>{if(p.money<200)return '这个月手头有点紧，先忍忍吧。';mny(p,-200);sst(p,'mood',hasTal(p,'kid')?7:5);return '你看了一场电影、吃了顿好的，心情美丽。';});
+  A('rest','😴','好好休息','健康+3，心情+2',()=>{sst(p,'health',3);sst(p,'mood',2);return '你彻底放空了一下，精力回满。';});
+  A('social','👥','社交时光','和朋友聊天、送礼、约会',()=>{openPop('social');return null;});
+  if(p.job)A('work','💼','加班赶工','多赚钱，但累',()=>{const c=careerOf(p);const g=Math.round(c.ladder[p.jobLvl].pay*0.15);p.money+=g;sst(p,'mood',-2);sst(p,'health',-1);return '你加班赶完了项目，多拿了 '+fmtM(g)+' 奖金。';});
+  A('fin','💰','理财规划','存款、基金打理一下',()=>{openPop('fin');return null;});
+  if(!p.house)A('house','🏠','安家置业','租房或买房',()=>{openPop('house');return null;});
+  if(canJob(p))A('jobseek','🔍','寻找工作','看看有哪些岗位',()=>{openPop('job');return null;});
+  A('shopping','🛍️','奖励自己','花800元，心情+4魅力+1',()=>{if(p.money<800)return '预算不够，这波先忍住。';mny(p,-800);sst(p,'mood',4);stg(p,'charm',1);return '你给自己添了新行头，整个人都在发光。';});
+  A('travel','✈️','来场旅行','花5000元，大幅放松',()=>{if(p.money<5000)return '旅行的预算还没攒够呢。';mny(p,-5000);sst(p,'mood',10);sst(p,'health',2);fameV(p,1);return '你看过了山与海，心里装满了故事。';});
+ }else{
+  A('exercise','🌅','晨练锻炼','体能+2，健康+2',()=>{stg(p,'fit',2);sst(p,'health',2);return '清晨的空气特别好，你打完一套拳神清气爽。';});
+  A('family','👨‍👩‍👧‍👦','天伦之乐','家人好感+5，心情+4',()=>{bondN(p,'子女',5);bondN(p,'配偶',5);bondN(p,'爸爸',3);bondN(p,'妈妈',3);sst(p,'mood',4);return '一家人围坐在一起，是最踏实的幸福。';});
+  A('social','🍵','老友叙旧','和老朋友聚聚',()=>{openPop('social');return null;});
+  A('fun','🎪','社区活动','花100元，心情+4声望+1',()=>{if(p.money<100)return '先让钱包缓一缓。';mny(p,-100);sst(p,'mood',4);fameV(p,1);return '你在社区活动里交了新朋友，还被夸精神好。';});
+  A('rest','😴','休养身心','健康+3，心情+2',()=>{sst(p,'health',3);sst(p,'mood',2);return '你泡了壶茶晒着太阳，慢下来了。';});
+  A('fin','💰','理财规划','打理养老钱',()=>{openPop('fin');return null;});
+  A('travel','✈️','圆梦旅行','花5000元，心情+10',()=>{if(p.money<5000)return '再攒攒，梦想不怕晚。';mny(p,-5000);sst(p,'mood',10);fameV(p,1);return '你去了心心念念的地方，圆满了一个心愿。';});
+ }
+ return L;
+}
+function doActionCore(id,auto){const p=S.p;const a=buildActions(p).find(x=>x.id===id);if(!a)return;const msg=a.fn();if(msg===null)return;p.ap=Math.max(0,p.ap-1);if(msg)glog(p,a.ic,(auto?'（自动）':'')+msg);}
+function doAction(id){const p=S.p;if(p.ap<1){toast('本月行动点已用完，点【结束本月】吧');return;}doActionCore(id,false);snd.click();save();render();}
+
+/* ================= 弹层：社交/理财/置业/求职 ================= */
+function openPop(t){S.pop=t;S.popIdx=0;render();}
+function closePop(){S.pop=null;render();}
+function pickNPC(i){S.popIdx=i;render();}
+function socAct(kind){const p=S.p;if(p.ap<1){toast('行动点不足');return;}const n=p.npcs[S.popIdx];if(!n)return;p.ap--;
+ const bonus=(hasTr(p,'sunny')?2:0)+(hasTal(p,'social')?3:0)+(hasTal(p,'pretty')?1:0);
+ if(kind==='chat'){n.bond=clamp(n.bond+3+bonus,0,100);sst(p,'mood',1);glog(p,'💬','和'+n.name+'聊了聊天，关系更近了。');snd.good();}
+ if(kind==='play'){n.bond=clamp(n.bond+5+bonus,0,100);sst(p,'mood',2);if(p.age>=18)mny(p,-100);glog(p,'🎲','和'+n.name+'玩了一下午，笑声不断。');snd.good();}
+ if(kind==='gift'){n.bond=clamp(n.bond+8+Math.floor(bonus/2),0,100);mny(p,-500);glog(p,'🎁','你给'+n.name+'挑了份礼物，TA开心极了。');snd.good();}
+ if(kind==='love'){n.type='恋人';n.bond=78;tl(p,'和'+n.name+'在一起了');glog(p,'💗','你鼓起勇气表白，'+n.name+'红着脸答应了！');snd.up();}
+ if(kind==='marry'){n.type='配偶';p.flags.married=true;mny(p,-20000);fameV(p,5);tl(p,'与'+n.name+'步入婚姻');ach(p,'marry');glog(p,'💍','在亲友的祝福中，你和'+n.name+'结婚了！');snd.up();}
+ if(kind==='baby'){p.flags.child=true;addNPC(p,{name:pick(BABYNAMES),type:'子女',bond:90,ico:'👶'});sst(p,'mood',8);tl(p,'家里迎来了小宝宝');ach(p,'baby');glog(p,'👶','宝宝出生了，家里一下子热闹起来！');snd.up();}
+ p.lastY[n.name]=p.age;closePop();save();}
+function finOp(op){const p=S.p;
+ if(op==='save'&&p.money>=10000){p.money-=10000;p.bank+=10000;glog(p,'🏦','存入银行 1 万元。');}
+ if(op==='take'&&p.bank>=10000){p.bank-=10000;p.money+=10000;glog(p,'🏦','从银行取出 1 万元。');}
+ if(op==='buy'&&p.money>=10000){p.money-=10000;p.fund+=10000;glog(p,'📈','买入 1 万元基金。');}
+ if(op==='sell'&&p.fund>=10000){p.fund-=10000;p.money+=10000;glog(p,'📉','赎回 1 万元基金。');}
+ snd.click();save();render();}
+function houseBuy(i){const p=S.p;const o=[{n:'温馨小窝',price:600000,ico:'🏠'},{n:'宽敞大房',price:1200000,ico:'🏡'}][i];const as=assets(p);const need=Math.round(o.price*0.3);
+ if(as<need){toast('首付需要 '+fmtM(need)+'，再攒攒吧');return;}
+ let d=need;const um=Math.min(p.money,d);p.money-=um;d-=um;p.bank-=d;
+ const loan=o.price-need;p.house={n:o.n,monthly:Math.round(loan/240),left:240};p.rent=null;
+ sst(p,'mood',5);fameV(p,3);tl(p,'买下了'+o.n);ach(p,'house');glog(p,'🏡','首付 '+fmtM(need)+' 买下'+o.n+'，月供 '+fmtM(p.house.monthly)+'，日子有了着落！');snd.up();closePop();save();}
+function setRent(r){const p=S.p;p.rent=r;const names={parents:'和父母同住',share:'搬去合租',solo:'独居公寓'};glog(p,'🔑','搬家了：'+names[r]+'。');snd.click();closePop();save();}
+function takeJob(cid){const p=S.p;if(p.ap<1){toast('行动点不足');return;}const c=CAREERS.find(x=>x.id===cid);p.ap--;p.job=cid;p.jobLvl=0;p.yearsLvl=0;
+ tl(p,'成为'+c.ladder[0].n);ach(p,'job');glog(p,'💼','你通过面试，成为一名'+c.ladder[0].n+'！月薪 '+fmtM(c.ladder[0].pay)+'。');snd.up();closePop();save();}
+
+/* ================= 事件系统 ================= */
+function chk(p,k,thr){return p.stats[k]+rnd(25)+(hasTr(p,'care')?3:0)>=thr;}
+const EVENTS=[
+ {ic:'🚌',t:'学校组织郊游',txt:'班里要组织去公园郊游，费用20元。',w:10,when:p=>stageOf(p.age)==='child',cs:[
+  {t:'一起去玩！',fn:()=>{const p=S.p;mny(p,-20);sst(p,'mood',6);bondN(p,'同学',3)||0;return '你在草地上和同学们玩了一下午，开心极了！';}},
+  {t:'留在教室看书',fn:()=>{stg(S.p,'smart',3);return '你安静地读完了半本故事书，收获满满。';}}]},
+ {ic:'🎹',t:'兴趣班报名',txt:'少年宫在招兴趣班，你想学点什么？',w:8,when:p=>stageOf(p.age)==='child',cs:[
+  {t:'学钢琴（200元）',fn:()=>{const p=S.p;if(p.money<200&&p.bank<200){sst(p,'mood',-1);return '家里暂时拿不出学费，你有点失落。';}mny(p,-200);stg(p,'charm',3);return '你的琴声越来越动听了。';}},
+  {t:'学画画（150元）',fn:()=>{const p=S.p;mny(p,-150);stg(p,'charm',2);stg(p,'smart',1);return '你的画在校园画展上得了小星星！';}},
+  {t:'在家自由玩',fn:()=>{sst(S.p,'mood',2);return '你用纸箱搭了一座城堡，也很有趣。';}}]},
+ {ic:'😢',t:'和小伙伴闹别扭',txt:'你和朋友因为一点小事吵起来了。',w:8,when:p=>stageOf(p.age)==='child',cs:[
+  {t:'主动和好',fn:()=>{const p=S.p;bondN(p,'同学',6);stg(p,'charm',1);return '你先伸出了手，你们的友谊反而更深了。';}},
+  {t:'等TA先道歉',fn:()=>{const p=S.p;bondN(p,'同学',-4);sst(p,'mood',-1);return '你们冷战了好几天，心里都不好受。';}},
+  {t:'请老师帮忙',fn:()=>{const p=S.p;bondN(p,'同学',2);fameV(p,1);return '老师帮你们和好了，还夸你懂事。';}}]},
+ {ic:'👛',t:'捡到一个钱包',txt:'放学路上，你捡到一个鼓鼓的钱包。',w:6,when:p=>stageOf(p.age)==='child',cs:[
+  {t:'交给老师',fn:()=>{const p=S.p;fameV(p,4);sst(p,'mood',2);return '失主特地来道谢，你成了班里的小英雄！';}},
+  {t:'买文具分给大家',fn:()=>{const p=S.p;stg(p,'smart',1);bondN(p,'同学',3);sst(p,'mood',2);return '同学们都很开心，虽然你有点心虚。';}}]},
+ {ic:'🏅',t:'学校运动会',txt:'一年一度的运动会开始报名啦！',w:7,when:p=>stageOf(p.age)==='child',cs:[
+  {t:'报名短跑',fn:()=>{const p=S.p;if(chk(p,'fit',40)){stg(p,'fit',3);fameV(p,3);sst(p,'mood',3);return '你冲过终点拿了名次，全班都在为你欢呼！';}stg(p,'fit',2);return '虽然没拿到名次，但你坚持跑完了全程。';}},
+  {t:'当啦啦队',fn:()=>{const p=S.p;sst(p,'mood',2);bondN(p,'同学',2);return '你的加油声最响亮，大家都很感谢你。';}}]},
+ {ic:'🧮',t:'数学竞赛通知',txt:'学校要选拔同学参加数学竞赛。',w:6,when:p=>p.age>=9&&p.age<=17,cs:[
+  {t:'报名挑战',fn:()=>{const p=S.p;if(chk(p,'smart',45)){stg(p,'smart',3);fameV(p,4);return '你捧回了奖状，全家人都为你骄傲！';}stg(p,'smart',2);sst(p,'mood',-1);return '虽然没获奖，但你也学到了很多。';}},
+  {t:'在台下鼓掌',fn:()=>'你默默记下了那些难题，准备下次再战。'}]},
+ {ic:'🏠',t:'独自在家的傍晚',txt:'爸妈加班，家里只有你一个人。',w:6,when:p=>stageOf(p.age)==='child',cs:[
+  {t:'看动画片',fn:()=>{sst(S.p,'mood',4);return '你看完了两集动画片，笑得停不下来。';}},
+  {t:'预习功课',fn:()=>{stg(S.p,'smart',3);return '你把明天的课预习了一遍，自信满满。';}},
+  {t:'做手工',fn:()=>{stg(S.p,'charm',2);return '你折了一整盒千纸鹤，打算送给朋友。';}}]},
+ {ic:'🗳️',t:'班长选举',txt:'新学期要选班干部，要不要试试？',w:7,when:p=>stageOf(p.age)==='teen',cs:[
+  {t:'上台竞选',fn:()=>{const p=S.p;if(chk(p,'charm',45)){stg(p,'charm',3);fameV(p,4);bondN(p,'同学',2);return '你当选了班干部，演讲赢得了满堂掌声！';}sst(p,'mood',-2);stg(p,'charm',1);return '虽然落选了，但你克服了怯场，下次更从容。';}},
+  {t:'为好友投票',fn:()=>{const p=S.p;bondN(p,'同学',6);return '好友当选后第一个感谢了你。';}}]},
+ {ic:'📱',t:'手机的诱惑',txt:'写作业时，手机一直在旁边闪光。',w:8,when:p=>stageOf(p.age)==='teen',cs:[
+  {t:'就刷一会儿…',fn:()=>{const p=S.p;sst(p,'mood',4);stg(p,'smart',-1);return '一转眼两个小时没了，作业还空着。';}},
+  {t:'把手机收起来',fn:()=>{const p=S.p;stg(p,'smart',2);sst(p,'mood',1);return '你专注地完成了作业，还有时间打了会球。';}}]},
+ {ic:'🎈',t:'爱心义卖',txt:'学校组织义卖活动，同学们各显神通。',w:6,when:p=>stageOf(p.age)==='teen',cs:[
+  {t:'去帮忙摆摊',fn:()=>{const p=S.p;p.money+=100;fameV(p,3);stg(p,'charm',2);return '你帮义卖筹了不少钱，还被授予了爱心徽章。';}},
+  {t:'买件手工艺品',fn:()=>{const p=S.p;mny(p,-100);sst(p,'mood',3);return '你买到的小陶笛吹起来呜呜响，超可爱。';}}]},
+ {ic:'🌸',t:'心动的感觉',txt:'班里有个同学，总让你想多看两眼。',w:6,when:p=>stageOf(p.age)==='teen'&&p.age>=13,cs:[
+  {t:'把心思放进学习',fn:()=>{stg(S.p,'smart',4);return '你把这份悸动写进了日记，成绩反而更好了。';}},
+  {t:'大方做朋友',fn:()=>{const p=S.p;addNPC(p,{name:uniqName(p),type:'同学',bond:55,ico:'🧑‍🎓'});return '青涩的友谊开始了，一起放学回家的路都变短了。';}}]},
+ {ic:'🌙',t:'考试前夜',txt:'明天有重要考试，现在还不困。',w:6,when:p=>stageOf(p.age)==='teen',cs:[
+  {t:'开夜车复习',fn:()=>{const p=S.p;stg(p,'smart',3);sst(p,'health',-2);return '你复习到凌晨，知识进脑子了，黑眼圈也来了。';}},
+  {t:'按时睡觉',fn:()=>{const p=S.p;sst(p,'health',2);stg(p,'smart',1);return '睡饱的你第二天思路格外清晰。';}}]},
+ {ic:'🤫',t:'看见真相',txt:'你看到有同学被误会了，真相和你想的不同。',w:5,when:p=>p.age<18,cs:[
+  {t:'站出来说明',fn:()=>{const p=S.p;fameV(p,4);bondN(p,'同学',2);return '真相大白，被误会的同学含泪谢了你。';}},
+  {t:'私下安慰TA',fn:()=>{const p=S.p;bondN(p,'同学',5);sst(p,'mood',1);return '你悄悄递上一张纸条：我信你。';}}]},
+ {ic:'🍜',t:'同事聚餐',txt:'下班后同事们喊你一起聚餐。',w:8,when:p=>stageOf(p.age)==='adult'&&p.job,cs:[
+  {t:'大方请客',fn:()=>{const p=S.p;mny(p,-300);p.npcs.filter(n=>n.type==='同事').forEach(n=>n.bond=clamp(n.bond+6,0,100));fameV(p,2);sst(p,'mood',2);return '这顿饭吃得热热闹闹，团队气氛更好了。';}},
+  {t:'婉拒回家',fn:()=>{sst(S.p,'mood',-1);return '你回家煮了碗面，早早休息了。';}}]},
+ {ic:'🗣️',t:'加薪谈判',txt:'年度面谈，你鼓起勇气想聊聊薪资。',w:6,when:p=>stageOf(p.age)==='adult'&&p.job,cs:[
+  {t:'大胆争取',fn:()=>{const p=S.p;if(chk(p,'charm',55)){p.raise=Math.min(1.5,(p.raise||1)*1.1);fameV(p,2);if(!p.flags.tlRaise){tl(p,'谈判加薪成功');p.flags.tlRaise=true;}return '老板欣赏你的勇气，给你加薪 10%！';}sst(p,'mood',-2);return '老板打了个太极，说下次一定。';}},
+  {t:'继续默默努力',fn:()=>{stg(S.p,'smart',2);return '你把劲头放回了工作里，稳扎稳打。';}}]},
+ {ic:'🫂',t:'旧友重逢',txt:'街头转角，你撞见了多年不见的老朋友。',w:6,when:p=>p.age>=18,cs:[
+  {t:'坐下叙叙旧',fn:()=>{const p=S.p;bondN(p,'朋友',8);sst(p,'mood',3);return '你们聊到了打烊，好像从未分开过。';}},
+  {t:'约一场旅行',fn:()=>{const p=S.p;if(p.money<1500){sst(p,'mood',2);return '钱包不允许，你们约好了下次一定。';}mny(p,-1500);sst(p,'mood',8);bondN(p,'朋友',10);return '你们来了一场说走就走的短途旅行！';}}]},
+ {ic:'💗',t:'心动瞬间',txt:'咖啡店里，有人多看了你一眼，你也多看了回去。',w:7,when:p=>p.age>=18&&!p.flags.married&&!p.npcs.find(n=>n.type==='恋人'),cs:[
+  {t:'上前认识一下',fn:()=>{const p=S.p;addNPC(p,{name:uniqName(p),type:'朋友',bond:60,ico:'🧑'});sst(p,'mood',3);return '你们交换了联系方式，故事也许才刚刚开始。';}},
+  {t:'微笑错过',fn:()=>{sst(S.p,'mood',1);return '有些人适合留在故事里。你继续向前走。';}}]},
+ {ic:'🩺',t:'体检提醒',txt:'年度体检报告出来了，医生皱了皱眉。',w:6,when:p=>p.age>=25,cs:[
+  {t:'开始锻炼计划',fn:()=>{const p=S.p;stg(p,'fit',3);sst(p,'health',3);return '你办了张健身卡，身体数据慢慢好看了。';}},
+  {t:'问题不大吧',fn:()=>{sst(S.p,'health',-1);return '你把报告塞回抽屉，希望明年别再这样。';}}]},
+ {ic:'📊',t:'理财讲座',txt:'银行在办理财讲座，送一桶油。',w:6,when:p=>p.age>=20&&assets(S.p)>20000,cs:[
+  {t:'存笔定期',fn:()=>{const p=S.p;mny(p,-5000);p.bank+=5000;return '你存了 5000 元定期，睡觉都踏实了。';}},
+  {t:'试试基金',fn:()=>{const p=S.p;mny(p,-5000);p.fund+=5000;return '你拿出 5000 元试水基金，涨跌皆是学问。';}},
+  {t:'听完就拿油走',fn:()=>{sst(S.p,'mood',1);return '油是真香，理财明天再说。';}}]},
+ {ic:'🏃',t:'城市马拉松',txt:'一年一度的马拉松开始报名了。',w:6,when:p=>p.age>=16&&p.stats.fit>=50&&!p.flags.mara,cs:[
+  {t:'报名参赛',fn:()=>{const p=S.p;if(chk(p,'fit',65)){p.flags.mara=true;fameV(p,6);stg(p,'fit',3);tl(p,'跑完马拉松全程');return '你戴着奖牌冲过终点，朋友圈刷屏了！';}stg(p,'fit',2);sst(p,'health',-1);sst(p,'mood',-1);return '你在 30 公里处抽了筋，遗憾但值得。';}},
+  {t:'路边助威',fn:()=>{sst(S.p,'mood',2);return '你举着牌子给跑者加油，也被这份热血感染。';}}]},
+ {ic:'🎂',t:'爸妈的生日',txt:'日历提醒你：今天是爸妈的生日。',w:6,when:p=>p.age>=18,cs:[
+  {t:'精心准备礼物',fn:()=>{const p=S.p;mny(p,-500);bondN(p,'爸爸',10);bondN(p,'妈妈',10);sst(p,'mood',4);return '爸妈嘴上说乱花钱，却把礼物摆在了最显眼的地方。';}},
+  {t:'打个电话',fn:()=>{const p=S.p;bondN(p,'爸爸',4);bondN(p,'妈妈',4);sst(p,'mood',1);return '电话那头笑声不断，爸妈说听到声音就高兴。';}}]},
+ {ic:'🤧',t:'重感冒',txt:'你喉咙发痒，头昏昏沉沉。',w:6,when:p=>true,cs:[
+  {t:'及时就医',fn:()=>{const p=S.p;mny(p,-300);sst(p,'health',2);return '吃了药休息两天，很快满血复活。';}},
+  {t:'硬扛过去',fn:()=>{const p=S.p;sst(p,'health',-3);sst(p,'mood',-2);return '拖了一周才好，身体被掏空。';}}]},
+ {ic:'🤝',t:'社区志愿者',txt:'社区在招募周末志愿者。',w:5,when:p=>p.age>=12,cs:[
+  {t:'报名参加',fn:()=>{const p=S.p;fameV(p,5);sst(p,'mood',3);return '你帮独居老人修了水管，收到了一面小锦旗。';}},
+  {t:'下次一定',fn:()=>'你收藏了报名链接，打算下次再去。'}]},
+ {ic:'🧭',t:'人生中场',txt:'站在人生的半山腰，你想起点什么。',w:6,when:p=>p.age>=40&&p.age<60,cs:[
+  {t:'重拾年轻时的爱好',fn:()=>{const p=S.p;stg(p,'charm',3);sst(p,'mood',5);return '你翻出落灰的吉他，指尖还记得旋律。';}},
+  {t:'认真做养老规划',fn:()=>{const p=S.p;mny(p,-5000);p.bank+=5000;stg(p,'smart',1);return '你理清了账本，未来的路清晰了不少。';}}]},
+ {ic:'💃',t:'广场上的晨光',txt:'清晨的广场上，队伍正跳得整齐热闹。',w:6,when:p=>p.age>=55,cs:[
+  {t:'加入他们',fn:()=>{const p=S.p;sst(p,'health',3);sst(p,'mood',3);addNPC(p,{name:uniqName(p),type:'朋友',bond:45,ico:'🧓'});return '你成了队伍里的领舞，认识了一群活力满满的朋友。';}},
+  {t:'安静散步',fn:()=>{sst(S.p,'health',1);return '你沿着河边走了一大圈，浑身舒展。';}}]},
+ {ic:'⚔️',t:'升职让贤',txt:'部门有个晋升名额，你和老搭档都够格。',w:5,when:p=>stageOf(p.age)==='adult'&&p.job&&p.yearsLvl>=2,cs:[
+  {t:'推荐老搭档',fn:()=>{const p=S.p;fameV(p,3);p.npcs.filter(n=>n.type==='同事').forEach(n=>n.bond=clamp(n.bond+6,0,100));sst(p,'mood',2);return '你的大度传遍了公司，人缘值拉满。';}},
+  {t:'自己全力争取',fn:()=>{const p=S.p;if(chk(p,'charm',50)){fameV(p,5);p.money+=2000;return '你用一场漂亮的汇报赢下了名额！';}sst(p,'mood',-2);return '这次差了点运气，但你积累了经验。';}}]},
+ {ic:'📚',t:'读书月',txt:'图书馆的读书月活动开始了。',w:5,when:p=>p.age>=12,cs:[
+  {t:'精读一本好书',fn:()=>{stg(S.p,'smart',4);return '你做了满满一本笔记，感觉脑子被喂饱了。';}},
+  {t:'听书放松',fn:()=>{sst(S.p,'mood',3);return '你边散步边听书，惬意又充实。';}}]},
+ {ic:'✨',t:'新面孔',txt:'生活里出现了一张新面孔。',w:6,when:p=>true,cs:[
+  {t:'主动打个招呼',fn:()=>{const p=S.p;const st=stageOf(p.age);const t=st==='child'||st==='teen'?'同学':st==='adult'?(p.job?'同事':'朋友'):'朋友';addNPC(p,{name:uniqName(p),type:t,bond:40,ico:t==='同事'?'🧑‍💼':'🧑'});return '你们互相认识了，说不定以后会有故事。';}},
+  {t:'保持礼貌距离',fn:()=>'你点头微笑，各自继续赶路。'}]}
+];
+function weightedPick(pool){const tot=pool.reduce((s,e)=>s+(e.w||5),0);let r=Math.random()*tot;for(const e of pool){r-=(e.w||5);if(r<=0)return e;}return pool[0];}
+function queueRandom(){const p=S.p;const pool=EVENTS.filter(e=>!e.when||e.when(p));if(pool.length)S.queue.push(weightedPick(pool));}
+
+/* ---- 年度事件工厂 ---- */
+function mkExam(){return {ic:'📝',t:'期末考试',txt:'又到了检验学习成果的时候。',cs:[
+ {t:'稳扎稳打',fn:()=>{const p=S.p;const sc=p.stats.smart+rnd(20)+(hasTr(p,'care')?5:0);if(sc>=80){sst(p,'mood',3);stg(p,'smart',2);fameV(p,1);return '成绩优秀！老师当众表扬了你。';}if(sc>=60){stg(p,'smart',2);return '成绩良好，稳中有进。';}sst(p,'mood',-2);stg(p,'smart',1);return '成绩一般，你暗下决心要更努力。';}},
+ {t:'冲一冲高分',fn:()=>{const p=S.p;if(Math.random()<0.35){stg(p,'smart',3);sst(p,'mood',2);fameV(p,1);return '你超常发挥，名字登上了光荣榜！';}sst(p,'mood',-2);return '有点紧张，发挥平平。下次稳一点。';}}]};}
+function mkGaokao(){const p=S.p;const sc=Math.round(p.stats.smart*0.9+rnd(25)+(hasTr(p,'dili')?3:0));p.gaokaoTries++;
+ const majors=MAJORS.map(m=>({t:'🎓 报读 '+m.n+' 专业',fn:()=>{const q=S.p;q.edu='大学';q.major=m.id;q.uniYears=0;tl(q,'考入大学（'+m.n+'专业）');return '你正式成为'+m.n+'专业的大学生！';}}));
+ const work={t:'直接工作，不读大学了',fn:()=>{S.p.edu='社会';tl(S.p,'早早进入社会');return '你决定早点进入社会闯荡。';}};
+ if(sc>=80){fameV(S.p,3);sst(S.p,'smart',8);if(sc>=95)ach(S.p,'zhuangyuan');return {ic:'🎓',t:'高考放榜',txt:'你考出了 '+sc+' 分的好成绩，重点大学向你招手！选择专业：',cs:majors.concat([work])};}
+ if(sc>=60){sst(S.p,'smart',4);return {ic:'🎓',t:'高考放榜',txt:'你考了 '+sc+' 分，过了本科线！选择专业：',cs:majors.concat([work])};}
+ return {ic:'📜',t:'高考放榜',txt:'这次考了 '+sc+' 分，没能上线。',cs:[
+  {t:'复读一年，再战高考',fn:()=>{const q=S.p;stg(q,'smart',5);return '你选择再拼一年，背水一战！';}},
+  work]};}
+function mkOffers(title,txt,list){return {ic:'💼',t:title,txt,cs:list.map(c=>({t:c.icon+' '+c.ladder[0].n+'（月薪 '+fmtM(c.ladder[0].pay)+'）',fn:()=>{const p=S.p;p.job=c.id;p.jobLvl=0;p.yearsLvl=0;tl(p,'成为'+c.ladder[0].n);ach(p,'job');return '你成功入职，成为一名'+c.ladder[0].n+'！';}})).concat([{t:'再等等看',fn:()=>'你决定再观望一下机会。'}])};}
+function mkPromo(next){return {ic:'🚀',t:'晋升机会',txt:'年度评审结果出来了：你符合晋升'+next.n+'的条件！',cs:[
+ {t:'接受晋升！',fn:()=>{const p=S.p;p.jobLvl++;p.yearsLvl=0;fameV(p,5);tl(p,'晋升为'+next.n);return '恭喜！你现在是'+next.n+'，月薪 '+fmtM(next.pay)+'。';}},
+ {t:'再积累一年',fn:()=>'你选择继续沉淀，机会还会再来。'}]};}
+function mkRetire(){return {ic:'🌅',t:'退休的选择',txt:'到了可以放慢脚步的年纪了。',cs:[
+ {t:'退休吧，领取养老金',fn:()=>{const p=S.p;const c=careerOf(p);p.pension=Math.round(c.ladder[p.jobLvl].pay*0.4);p.job=null;p.flags.retired=true;tl(p,'光荣退休');return '你退休了，每月养老金 '+fmtM(p.pension)+'。';}},
+ {t:'我还想再干几年',fn:()=>'你选择继续发光发热。'}]};}
+function mkNotice(ic,t,txt,msg){return {ic,t,txt,cs:[{t:'继续',fn:()=>msg||''}]};}
+
+/* ================= 年度推进 ================= */
+function pushMilestones(){const p=S.p;
+ if(p.age===12&&p.edu==='小学'){p.edu='初中';tl(p,'升入初中');S.queue.push(mkNotice('🎒','升入初中','你成了一名初中生，课业渐渐变重。','新的老师、新的同学，都在等你。'));}
+ if(p.age===15&&p.edu==='初中'){
+  if(p.stats.smart>=50){p.edu='高中';tl(p,'考入高中');S.queue.push(mkNotice('🎒','中考放榜','你考上了心仪的高中！','新校园，新起点。'));}
+  else{p.edu='职校';tl(p,'进入职校');S.queue.push(mkNotice('🛠️','中考放榜','你进入职业学校，学一门实用技术。','一技傍身，走遍天下。'));}}
+ if(p.age>=18&&p.edu==='高中')S.queue.push(mkGaokao());
+ if(p.edu==='职校'&&p.age>=17){p.edu='职校毕业';tl(p,'职校毕业');const list=eligibleOffers(p).filter(c=>['food','barista','courier','basic','coach'].includes(c.id));S.queue.push(mkOffers('职校毕业！','带着一门手艺，这些岗位在等你：',list));}
+ if((p.edu==='小学'||p.edu==='初中'||(p.edu==='高中'&&p.age<18)))S.queue.push(mkExam());
+ if(p.edu==='大学'){
+  if(p.age===19)S.queue.push({ic:'🎪',t:'大学社团',txt:'百团大战，社团招新啦！',cs:[
+   {t:'加入文艺社',fn:()=>{const q=S.p;stg(q,'charm',3);sst(q,'mood',3);return '你在晚会上表演了节目，收获了掌声和朋友。';}},
+   {t:'加入球社',fn:()=>{const q=S.p;stg(q,'fit',3);sst(q,'mood',2);return '你每周和队友打球，身体倍儿棒。';}},
+   {t:'泡图书馆',fn:()=>{const q=S.p;stg(q,'smart',4);return '你把图书馆当成了第二个家。';}}]});
+  if(p.age===21)S.queue.push({ic:'💼',t:'毕业实习',txt:'实习季到了，去体验真实的职场吧。',cs:[
+   {t:'认真实习',fn:()=>{const q=S.p;stg(q,'smart',3);stg(q,'charm',2);fameV(q,2);return '你的实习报告被 leader 当众表扬！';}},
+   {t:'边实习边玩',fn:()=>{const q=S.p;sst(q,'mood',5);return '你把实习城市逛了个遍，也算不虚此行。';}}]});}
+ if(p.age===60&&p.job)S.queue.push(mkRetire());
+ if(p.age===65&&p.job){const c=careerOf(p);p.pension=Math.round(c.ladder[p.jobLvl].pay*0.4);p.job=null;p.flags.retired=true;tl(p,'到龄退休');S.queue.push(mkNotice('🌅','到龄退休','你光荣退休了。','每月养老金 '+fmtM(p.pension)+'，好好享受生活吧。'));}
+ if(p.age>=25&&p.age%3===0)S.queue.push({ic:'🏠',t:'常回家看看',txt:'爸妈又老了一岁，你有多久没好好陪陪他们了？',cs:[
+  {t:'回家陪他们吃饭',fn:()=>{const q=S.p;bondN(q,'爸爸',8);bondN(q,'妈妈',8);sst(q,'mood',4);return '一桌热腾腾的饭菜，爸妈笑得合不拢嘴。';}},
+  {t:'寄点钱表心意',fn:()=>{const q=S.p;mny(q,-1000);bondN(q,'爸爸',4);bondN(q,'妈妈',4);return '你给家里汇了钱，电话里爸妈直说不需要。';}}]});
+ if(p.job&&p.age<65){const c=careerOf(p);const nxt=c.ladder[p.jobLvl+1];if(nxt&&promoMet(p,nxt))S.queue.push(mkPromo(nxt));}
+}
+function checkAch(){const p=S.p;const as=assets(p);
+ if(as>=500000)ach(p,'rich50');if(as>=2000000)ach(p,'rich200');if(p.fame>=80)ach(p,'fame');
+ if(p.age>=70&&p.stats.health>=70)ach(p,'health');
+ const fam=p.npcs.filter(n=>['家人','配偶','子女'].includes(n.type));
+ if(fam.length&&fam.reduce((s,n)=>s+n.bond,0)/fam.length>=85)ach(p,'bond');}
+function yearEnd(){const p=S.p;p.age++;
+ if(p.edu==='大学'){stg(p,'smart',6);p.uniYears=(p.uniYears||0)+1;
+  if(p.uniYears>=4){p.edu='大学毕业';tl(p,'大学毕业');ach(p,'grad');const list=eligibleOffers(p);S.queue.push(mkOffers('大学毕业！','学位到手，这些Offer向你招手：',list));}}
+ if(p.bank>0){const it=Math.round(p.bank*0.025);p.bank+=it;if(it>0)glog(p,'🏦','存款利息 +'+fmtM(it)+'。');}
+ if(p.fund>0){let r=-0.12+Math.random()*0.40;if(hasTal(p,'biz'))r+=0.06;const ch=Math.round(p.fund*r);p.fund=Math.max(0,p.fund+ch);glog(p,ch>=0?'📈':'📉','基金'+(ch>=0?'上涨':'回调')+'，'+(ch>=0?'收益':'亏损')+' '+fmtM(Math.abs(ch))+'（现值 '+fmtM(p.fund)+'）。');}
+ p.npcs.forEach(n=>{if(!['家人','配偶','子女','恋人'].includes(n.type)){if((p.lastY[n.name]||0)<p.age-1)n.bond=clamp(n.bond-3,0,100);}});
+ if(p.age>=50){const d=Math.floor((p.age-45)/10);if(d>0){sst(p,'health',-d);glog(p,'🍂','岁月不饶人，健康略有下降（-'+d+'）。');}}
+ if(p.stats.mood<30)sst(p,'health',-2);
+ if(hasTal(p,'lucky')&&Math.random()<0.4){const m=200+rnd(800);p.money+=m;glog(p,'🍀','幸运星发光！意外小惊喜 +'+fmtM(m)+'。');}
+ pushMilestones();
+ if(Math.random()<0.7)queueRandom();
+ checkAch();
+ p.curve=p.curve||[];p.curve.push({age:p.age,as:assets(p),mood:p.stats.mood});
+ if(p.stats.health<=0){die('health');return;}
+ if(p.age>=80&&Math.random()<0.18){die('age');return;}
+}
+function endMonth(){const p=S.p;if(S.over)return;
+ let income=0;
+ if(p.job){const c=careerOf(p);income+=Math.round(c.ladder[p.jobLvl].pay*(p.raise||1));}
+ else if(p.pension)income+=p.pension;
+ let exp=0;
+ if(p.house){exp+=p.house.monthly;if(p.house.left>0)p.house.left--;}
+ else if(p.rent==='share')exp+=1500;else if(p.rent==='solo')exp+=3000;
+ if(p.age>=18){exp+=(p.rent==='parents')?300:1200;}
+ p.money+=income-exp;
+ if(p.money<0){if(p.bank+p.money>=0){p.bank+=p.money;p.money=0;glog(p,'💸','这个月入不敷出，动用了存款。');sst(p,'mood',-4);}else{p.money=0;p.bank=0;glog(p,'😰','收支吃紧，你靠打零工勉强撑了过去。');sst(p,'mood',-4);sst(p,'health',-1);}}
+ else if(income-exp>0&&income>0)glog(p,'💰','本月结余 '+fmtM(income-exp)+'，钱包鼓了一点。');
+ p.month++;
+ p.ap=3+(hasTal(p,'night')?1:0);
+ if(p.month>12){p.month=1;yearEnd();}
+ else if(Math.random()<0.5)queueRandom();
+ if(!S.over)save();
+ pump();
+}
+
+/* ================= 事件泵 ================= */
+function firstEligible(ev){for(let i=0;i<ev.cs.length;i++){if(!ev.cs[i].when||ev.cs[i].when(S.p))return i;}return 0;}
+function pump(){if(!S)return;if(S.over){render();return;}
+ while(S.auto&&S.queue.length){const ev=S.queue.shift();const i=firstEligible(ev);const msg=ev.cs[i].fn()||'';glog(S.p,ev.ic,'（自动）'+ev.t+'：'+msg);}
+ if(S.cur){render();return;}
+ if(S.queue.length){S.cur=S.queue.shift();snd.event();render();return;}
+ render();}
+function choose(i){const ev=S.cur;if(!ev)return;const c=ev.cs[i];S.cur=null;const msg=c.fn()||'';if(msg)glog(S.p,ev.ic,msg);snd.click();save();pump();}
+
+/* ================= 人生结算 ================= */
+function die(kind){const p=S.p;S.queue=[];S.cur=null;S.pop=null;S.over=true;
+ const fam=p.npcs.filter(n=>['家人','配偶','子女'].includes(n.type));
+ const avgBond=fam.length?Math.round(fam.reduce((s,n)=>s+n.bond,0)/fam.length):60;
+ const as=assets(p);
+ const wealth=Math.min(30,Math.floor(as/40000));
+ const famePts=Math.round(p.fame*0.2);
+ const famPts=Math.round(avgBond*0.2);
+ const achPts=Math.min(20,p.ach.length*4);
+ const healthPts=Math.round(p.stats.health*0.1);
+ const total=Math.min(100,wealth+famePts+famPts+achPts+healthPts);
+ const grade=total>=85?['S','传奇人生']:total>=65?['A','精彩人生']:total>=45?['B','充实人生']:['C','平凡而温暖'];
+ const top=['smart','fit','charm'].sort((a,b)=>p.stats[b]-p.stats[a])[0];
+ let kw=grade[1];
+ if(p.fame>=70)kw='闪耀人生';else if(as>=1000000)kw='财富人生';
+ else if(top==='smart')kw='学霸人生';else if(top==='fit')kw='活力人生';else if(top==='charm')kw='魅力人生';
+ else if(p.flags.married&&p.flags.child)kw='幸福家庭';else if(!p.flags.married&&as>=500000)kw='独立人生';
+ const kindTxt=kind==='health'?'身体亮起了红灯，你在亲友的陪伴中提前谢幕了。':kind==='age'?'在亲友的祝福中，你安详地走完了完整而丰盈的一生。':'你笑着和这个世界挥手：这一生，值得。';
+ S.endData={grade:grade[0],gradeName:grade[1],kw,kindTxt,total,wealth,famePts,famPts,achPts,healthPts,as,avgBond,jobName:p.job?careerOf(p).ladder[p.jobLvl].n:(p.pension?'退休生活':'自由人生')};
+ save();}
+function settleAsk(){S.queue.push({ic:'🎇',t:'圆满谢幕',txt:'要在此刻为这段人生画上句号，查看人生总结吗？',cs:[
+ {t:'画上句号，看看人生总结',fn:()=>{die('settle');return '人生总结已生成。';}},
+ {t:'再活一阵子',fn:()=>'生活还在继续，明天又是新的一天。'}]});pump();}
+
+/* ================= 渲染 ================= */
+function render(){const app=$('#app');if(!S){app.innerHTML='';return;}
+ if(S.over){app.innerHTML=endHTML();return;}
+ if(S.screen==='title'){app.innerHTML=titleHTML();return;}
+ if(S.screen==='create'){app.innerHTML=createHTML();return;}
+ app.innerHTML=gameHTML();startBgm();}
+function titleHTML(){const fs=['🌱','🎈','☀️','🌻','🦋','🌈','☁️','🍀'];
+ return '<div class="title-wrap">'+fs.map((e,i)=>'<span class="float-e" style="left:'+(5+i*11)+'%;top:'+(8+(i%4)*20)+'%;animation-delay:'+(i*0.7)+'s">'+e+'</span>').join('')
+ +'<div class="title-emoji">🌱🧒🎓👩‍💼👴🌳</div><h1>现实人生模拟器</h1><p class="sub">从 6 岁到白头，模拟一段温暖又真实的人生</p>'
+ +'<div class="btns"><button class="btn primary" style="font-size:18px;padding:14px 34px" onclick="startCreate()">🌱 开始新人生</button>'
+ +(hasSave()?'<button class="btn" style="font-size:18px;padding:14px 34px" onclick="loadSave()">📖 继续上次人生</button>':'')
+ +'</div><p class="hint">全年龄友好 · 支持自动存档 · 音效可开关 · 本页完全离线可玩</p></div>';}
+function createHTML(){const c=S.c;
+ const av={skin:c.skin,hair:c.hair,hairC:c.hairC,outfit:c.outfit,stats:{mood:75}};
+ const fam=FAMILIES[c.family];
+ return '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px"><h2 style="font-size:26px;transform:rotate(-1deg)">🧸 创造你的角色</h2><button class="btn small" onclick="boot()">← 返回标题</button></div>'
+ +'<div class="crate"><div class="prev"><div class="avbox">'+avatarSVG(av,180)+'</div>'
+ +'<div class="card" style="text-align:left"><div class="kv"><span>家庭背景</span><b>'+fam.n+'</b></div><div class="dim" style="margin-top:4px">'+fam.d+'</div><div class="kv" style="margin-top:6px"><span>初始存款</span><b>'+fmtM(fam.money)+'</b></div></div></div>'
+ +'<div>'
+ +'<div class="card sec"><div class="lab">🪪 基本信息</div><div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">'
+ +'<input type="text" id="pname" maxlength="8" placeholder="你的名字" value="'+c.name+'" oninput="S.c.name=this.value">'
+ +'<button class="btn small" onclick="randName()">🎲 随机</button>'
+ +GENDERS.map(g=>'<button class="chip '+(c.gender===g.id?'sel':'')+'" onclick="setCr(\'gender\',\''+g.id+'\')">'+g.n+'</button>').join('')
+ +'</div></div>'
+ +'<div class="card sec"><div class="lab">💇 发型</div><div class="chips">'+HAIRSTYLES.map((h,i)=>'<button class="chip '+(c.hair===i?'sel':'')+'" onclick="setCr(\'hair\','+i+')">'+h.n+'</button>').join('')+'</div>'
+ +'<div class="lab" style="margin-top:10px">🎨 发色</div><div class="sw">'+HAIRC.map((h,i)=>'<b class="'+(c.hairC===i?'sel':'')+'" style="background:'+h.c+'" title="'+h.n+'" onclick="setCr(\'hairC\','+i+')"></b>').join('')+'</div>'
+ +'<div class="lab" style="margin-top:10px">🌞 肤色</div><div class="sw">'+SKINS.map((s,i)=>'<b class="'+(c.skin===i?'sel':'')+'" style="background:'+s+'" onclick="setCr(\'skin\','+i+')"></b>').join('')+'</div>'
+ +'<div class="lab" style="margin-top:10px">👕 穿搭颜色</div><div class="sw">'+OUTFITS.map((s,i)=>'<b class="'+(c.outfit===i?'sel':'')+'" style="background:'+s+'" onclick="setCr(\'outfit\','+i+')"></b>').join('')+'</div></div>'
+ +'<div class="card sec"><div class="lab">🌟 性格特征（选2个）</div><div class="chips">'+TRAITS.map(t=>'<button class="chip '+(c.traits.includes(t.id)?'sel':'')+'" title="'+t.d+'" onclick="toggleTrait(\''+t.id+'\')">'+t.n+'</button>').join('')+'</div>'
+ +'<div class="dim" style="margin-top:6px">'+(c.traits.length?c.traits.map(id=>TRAITS.find(t=>t.id===id).n+'：'+TRAITS.find(t=>t.id===id).d).join('　'):'性格会影响属性成长和事件走向')+'</div></div>'
+ +'<div class="card sec"><div class="lab">✨ 天赋（可重抽 '+c.rerolls+' 次）</div>'
+ +c.talents.map(id=>{const t=TALENTS.find(x=>x.id===id);return '<div class="talent"><b>'+t.n+'</b>　<span class="dim">'+t.d+'</span></div>';}).join('')
+ +'<button class="btn small" onclick="rerollTalents()" '+(c.rerolls<1?'disabled':'')+'>🔄 换一批</button></div>'
+ +'<div style="text-align:center;margin:8px 0 30px"><button class="btn primary" style="font-size:17px;padding:13px 40px" onclick="beginLife()">🚂 出发，开始这段人生！</button></div>'
+ +'</div></div>';}
+function setCr(k,v){S.c[k]=v;render();}
+function randName(){const ns=['小阳','小禾','阿澄','乐知','安然','知夏','一诺','星野','可可','沐辰'];S.c.name=pick(ns);render();}
+function toggleTrait(id){const c=S.c;if(c.traits.includes(id))c.traits=c.traits.filter(x=>x!==id);else{if(c.traits.length>=2){toast('最多选 2 个性格哦');return;}c.traits.push(id);}render();}
+function rerollTalents(){const c=S.c;if(c.rerolls<1)return;c.rerolls--;c.talents=rollTalents();snd.click();render();}
+function rollTalents(){const pool=TALENTS.slice();const out=[];for(let i=0;i<2;i++)out.push(pool.splice(rnd(pool.length),1)[0].id);return out;}
+function startCreate(){snd.click();S={v:1,sound:true,bgm:true,screen:'create',over:false,auto:false,queue:[],cur:null,p:null,pop:null,popIdx:0,c:{name:'',gender:'m',skin:0,hair:0,hairC:0,outfit:0,traits:[],talents:rollTalents(),rerolls:3,family:rnd(4)}};render();}
+function beginLife(){const c=S.c;if(c.traits.length!==2){toast('请选择 2 个性格特征');return;}
+ const fam=FAMILIES[c.family];
+ const p={name:(c.name||'').trim()||pick(['小阳','小禾','阿澄','乐知','安然']),gender:c.gender,skin:c.skin,hair:c.hair,hairC:c.hairC,outfit:c.outfit,
+  family:c.family,traits:c.traits.slice(),talents:c.talents.slice(),
+  age:6,month:1,edu:'学前',major:null,uniYears:0,
+  stats:{health:92,mood:75+(fam.mood||0),smart:15,fit:30,charm:35},
+  money:0,bank:fam.money,fund:0,fame:10+(fam.fame||0),ap:0,
+  job:null,jobLvl:0,yearsLvl:0,pension:0,raise:1,house:null,rent:'parents',gaokaoTries:0,
+  npcs:[],log:[],timeline:[],ach:[],lastY:{},flags:{married:false,child:false,retired:false}};
+ if(hasTal(p,'pretty'))p.stats.charm=clamp(p.stats.charm+15,0,100);
+ if(hasTal(p,'rich'))p.bank+=30000;
+ p.curve=[{age:6,as:assets(p),mood:p.stats.mood}];
+ p.ap=3+(hasTal(p,'night')?1:0);
+ p.npcs.push({name:'爸爸',type:'家人',bond:65+rnd(15),ico:'👨'});
+ p.npcs.push({name:'妈妈',type:'家人',bond:72+rnd(15),ico:'👩'});
+ p.npcs.push({name:uniqName(p),type:'同学',bond:45+rnd(15),ico:'🧒'});
+ tl(p,'在'+fam.n+'中长大');
+ p.edu='小学';tl(p,'背起书包上小学');
+ glog(p,'🌱','你 6 岁了，人生的小火车出发啦！');
+ glog(p,'🎒','9月，你成为了一名小学生。');
+ glog(p,'🏡','你出生在一个'+fam.n+'。'+fam.d);
+ S.p=p;S.screen='game';S.pop=null;S.queue=[];S.cur=null;S.over=false;
+ snd.up();save();render();}
+
+function gameHTML(){const p=S.p;if(!p)return '';
+ const st=stageOf(p.age);
+ const stName={child:'童年',teen:'少年',adult:'成年',senior:'花甲'}[st];
+ const apMax=3+(hasTal(p,'night')?1:0);
+ const acts=buildActions(p);
+ const bars=[['❤️ 健康',p.stats.health,'#00FF00'],['😊 心情',p.stats.mood,'#FFFF00'],['📖 知识',p.stats.smart,'#0000FF'],['💪 体能',p.stats.fit,'#FF0000'],['✨ 魅力',p.stats.charm,'#FF00FF']];
+ const relHTML=p.npcs.map((n,i)=>'<div class="rel-item"><span class="re">'+n.ico+'</span><span style="min-width:74px">'+n.name+'<span class="dim"> '+n.type+'</span></span><span class="mini"><i style="width:'+n.bond+'%"></i></span><b style="font-size:12px">'+n.bond+'</b></div>').join('')||'<div class="dim">还没有认识谁，去社交吧！</div>';
+ const logHTML=p.log.slice(0,50).map(l=>'<div class="log-item"><span class="age">'+l.age+'岁'+l.m+'月</span>'+l.ic+' '+l.t+'</div>').join('')||'<div class="dim">人生日记还是空白的。</div>';
+ const eduName={'学前':'幼儿园','小学':'小学生','初中':'初中生','高中':'高中生','职校':'职校生','大学':'大学生','大学毕业':'大学毕业','职校毕业':'职校毕业','社会':'社会人'}[p.edu];
+ const jobName=p.job?careerOf(p).ladder[p.jobLvl].n:(p.pension?'退休（养老金'+fmtM(p.pension)+'/月）':'暂无工作');
+ const houseName=p.house?p.house.n+'（月供'+fmtM(p.house.monthly)+'）':{parents:'与父母同住',share:'合租公寓',solo:'独居公寓'}[p.rent];
+ let html='<div class="topbar card">'
+ +'<div class="who">'+avatarSVG(p,54)+'<div><div class="nm">'+p.name+'</div><div class="dim">'+stName+' · '+p.age+'岁 · 📅 '+p.month+'月</div></div></div>'
+ +'<div class="moneytag">💰 '+fmtM(p.money+p.bank)+'</div>'
+ +'<div class="fametag">⭐ 声望 '+p.fame+'</div>'
+ +'<div class="apdots">⚡ 行动点 '+Array.from({length:apMax},(_,i)=>'<span class="dot '+(i<p.ap?'on':'')+'"></span>').join('')+'</div>'
+ +'<div class="stats">'+bars.map(b=>'<div class="stat"><span class="lb">'+b[0]+'</span><span class="bar"><i style="width:'+b[1]+'%;background:'+b[2]+'"></i></span></div>').join('')+'</div>'
+ +'</div>';
+ html+='<div class="cols">';
+ html+='<div><div class="card"><h3>🌸 我的档案</h3><div style="text-align:center">'+avatarSVG(p,120)+'</div><div class="me-tags">'
+ +p.traits.map(id=>'<span class="tag">'+TRAITS.find(t=>t.id===id).n+'</span>').join('')
+ +p.talents.map(id=>'<span class="tag mint">✨'+TALENTS.find(t=>t.id===id).n+'</span>').join('')+'</div>'
+ +'<div style="text-align:center;margin-top:10px">'+radarSVG(p,205)+'</div>'
+ +'<div class="kv"><span>身份</span><b>'+(eduName||'')+'</b></div>'
+ +'<div class="kv"><span>职业</span><b>'+jobName+'</b></div>'
+ +'<div class="kv"><span>住房</span><b>'+houseName+'</b></div>'
+ +'<div class="kv"><span>银行存款</span><b>'+fmtM(p.bank)+'</b></div>'
+ +'<div class="kv"><span>基金持仓</span><b>'+fmtM(p.fund)+'</b></div>'
+ +(p.house?'<div class="kv"><span>房贷剩余</span><b>'+p.house.left+' 期</b></div>':'')
+ +'</div></div>';
+ html+='<div><div class="card"><h3>🗓️ 本月安排（'+p.month+'月 · 剩 '+p.ap+' 点行动点）</h3><div class="grid-actions">'
+ +acts.map(a=>'<button class="act-btn" onclick="doAction(\''+a.id+'\')" '+(p.ap<1?'disabled':'')+'><span class="ic">'+a.ic+'</span><span class="n">'+a.n+'</span><span class="d">'+a.d+'</span></button>').join('')
+ +'</div><div class="navrow">'
+ +'<button class="btn primary" onclick="endMonth()" '+(S.cur?'disabled':'')+'>🌙 结束本月</button>'
+ +'<button class="btn" onclick="autoMonth()" '+(S.cur?'disabled':'')+'>🤖 自动过月</button>'
+ +'<button class="btn" onclick="fastYear()" '+(S.cur?'disabled':'')+'>⏩ 快进一年</button>'
+ +'<button class="btn" onclick="toggleSound()">'+(S.sound?'🔊 音效':'🔇 静音')+'</button>'
+ +'<button class="btn" onclick="toggleBgm()">'+(S.bgm===false?'🎵 配乐关':'🎵 配乐开')+'</button>'
+ +(p.age>=65?'<button class="btn" onclick="settleAsk()">🎇 圆满谢幕</button>':'')
+ +'<button class="btn small" onclick="boot()">🏠 主菜单</button>'
+ +'</div><div class="dim" style="margin-top:8px">提示：社交、理财、置业、求职会打开面板；自动托管会替你做平衡的选择。</div></div></div>';
+ html+='<div><div class="card"><h3>💞 人际关系</h3>'+relHTML+'</div><div class="card" style="margin-top:12px"><h3>📔 人生日记</h3><div class="log">'+logHTML+'</div></div></div>';
+ html+='</div>';
+ if(S.cur)html+=eventHTML(S.cur);
+ if(S.pop)html+=popHTML();
+ return html;}
+function eventHTML(ev){return '<div class="overlay"><div class="modal"><div class="m-ic">'+ev.ic+'</div><h3>'+ev.t+'</h3><div class="txt">'+ev.txt+'</div>'
+ +ev.cs.map((c,i)=>'<button class="choice" onclick="choose('+i+')">'+c.t+(c.when?'':'')+'</button>').join('')
+ +'</div></div>';}
+function popHTML(){const p=S.p;
+ if(S.pop==='social'){const n=p.npcs[S.popIdx]||p.npcs[0];if(!n)return '';
+  const canLove=p.age>=18&&['朋友','同学','同事'].includes(n.type)&&n.bond>=70;
+  const canMarry=n.type==='恋人'&&n.bond>=85&&p.job&&assets(p)>=20000;
+  const canBaby=p.flags.married&&!p.flags.child&&n.type==='配偶'&&p.age>=20&&p.age<=45;
+  return '<div class="overlay" onclick="closePop()"><div class="modal" onclick="event.stopPropagation()"><div class="m-ic">👥</div><h3>社交时光</h3><div class="txt">选择一位亲友共度时光（消耗 1 行动点）</div>'
+  +'<div class="chips" style="margin-bottom:12px">'+p.npcs.map((m,i)=>'<button class="chip '+(i===S.popIdx?'sel':'')+'" onclick="pickNPC('+i+')">'+m.ico+' '+m.name+'</button>').join('')+'</div>'
+  +'<div class="card" style="margin-bottom:10px"><div style="font-size:30px">'+n.ico+'</div><b>'+n.name+'</b> <span class="dim">'+n.type+' · 好感 '+n.bond+'</span><div class="bar" style="margin-top:6px"><i style="width:'+n.bond+'%;background:#FF0000"></i></div></div>'
+  +'<button class="choice" onclick="socAct(\'chat\')">💬 聊聊天<small>好感 +3，心情 +1</small></button>'
+  +'<button class="choice" onclick="socAct(\'play\')">🎲 一起玩<small>好感 +5，心情 +2'+(p.age>=18?'，花费 100 元':'')+'</small></button>'
+  +'<button class="choice" onclick="socAct(\'gift\')">🎁 送礼物<small>好感 +8，花费 500 元</small></button>'
+  +(canLove?'<button class="choice" onclick="socAct(\'love\')">💗 鼓起勇气表白<small>好感 ≥70 才有底气</small></button>':'')
+  +(canMarry?'<button class="choice" onclick="socAct(\'marry\')">💍 求婚<small>举办婚礼，花费 2 万</small></button>':'')
+  +(canBaby?'<button class="choice" onclick="socAct(\'baby\')">👶 迎接新生命<small>家里添个小宝宝</small></button>':'')
+  +'<button class="btn" style="margin-top:12px" onclick="closePop()">先不了</button></div></div>';}
+ if(S.pop==='fin'){return '<div class="overlay" onclick="closePop()"><div class="modal" onclick="event.stopPropagation()"><div class="m-ic">💰</div><h3>理财规划</h3><div class="txt">现金 '+fmtM(p.money)+' · 存款 '+fmtM(p.bank)+'（年息2.5%）· 基金 '+fmtM(p.fund)+'（每年 -12%~+28% 波动'+(hasTal(p,'biz')?'，生意头脑加成中':'')+'）</div>'
+  +'<button class="choice" onclick="finOp(\'save\')" '+(p.money<10000?'disabled':'')+'>🏦 存入 1 万</button>'
+  +'<button class="choice" onclick="finOp(\'take\')" '+(p.bank<10000?'disabled':'')+'>🏦 取出 1 万</button>'
+  +'<button class="choice" onclick="finOp(\'buy\')" '+(p.money<10000?'disabled':'')+'>📈 买入 1 万基金</button>'
+  +'<button class="choice" onclick="finOp(\'sell\')" '+(p.fund<10000?'disabled':'')+'>📉 赎回 1 万基金</button>'
+  +'<button class="btn" style="margin-top:12px" onclick="closePop()">搞定，收工</button></div></div>';}
+ if(S.pop==='house'){const homes=[{n:'温馨小窝',price:600000,ico:'🏠'},{n:'宽敞大房',price:1200000,ico:'🏡'}];
+  return '<div class="overlay" onclick="closePop()"><div class="modal" onclick="event.stopPropagation()"><div class="m-ic">🏠</div><h3>安家置业</h3><div class="txt">当前：'+(p.house?(p.house.n+'（月供'+fmtM(p.house.monthly)+'）'):{parents:'与父母同住',share:'合租（月租1500）',solo:'独居（月租3000）'}[p.rent])+' · 可用资金 '+fmtM(assets(p))+'</div>'
+  +(p.house?'':homes.map((h,i)=>'<button class="choice" onclick="houseBuy('+i+')">'+h.ico+' 买下'+h.n+'（'+fmtM(h.price)+'，首付30%，月供'+fmtM(Math.round(h.price*0.7/240))+'）</button>').join(''))
+  +'<button class="choice" onclick="setRent(\'share\')" '+(p.rent==='share'?'disabled':'')+'>🚪 搬去合租（月租 1500）</button>'
+  +'<button class="choice" onclick="setRent(\'solo\')" '+(p.rent==='solo'?'disabled':'')+'>🏢 独居公寓（月租 3000）</button>'
+  +'<button class="choice" onclick="setRent('+"'parents'"+')" '+(p.rent==='parents'?'disabled':'')+'>👨‍👩‍👧 回家和父母同住</button>'
+  +'<button class="btn" style="margin-top:12px" onclick="closePop()">先看看再说</button></div></div>';}
+ if(S.pop==='job'){const list=eligibleOffers(p).filter(c=>c.id!==p.job);
+  return '<div class="overlay" onclick="closePop()"><div class="modal" onclick="event.stopPropagation()"><div class="m-ic">🔍</div><h3>寻找工作</h3><div class="txt">'+(list.length?'以下岗位与你匹配（消耗 1 行动点入职）：':'暂时没有匹配的岗位，先提升知识/体能/魅力，或先做做兼职。')+'</div>'
+  +list.map(c=>'<button class="choice" onclick="takeJob(\''+c.id+'\')">'+c.icon+' '+c.ladder[0].n+'<small>月薪 '+fmtM(c.ladder[0].pay)+' · 晋升线：'+c.ladder.map(l=>l.n).join(' → ')+'</small></button>').join('')
+  +'<button class="btn" style="margin-top:12px" onclick="closePop()">再想想</button></div></div>';}
+ return '';}
+function toggleSound(){S.sound=!S.sound;save();render();toast(S.sound?'🔊 音效已开启':'🔇 音效已关闭');}
+function toggleBgm(){S.bgm=!(S.bgm!==false);save();render();toast(S.bgm?'🎵 配乐已开启':'🎵 配乐已关闭');}
+
+/* ================= 数据可视化 ================= */
+function radarSVG(p,size){
+ const ks=[['health','健康'],['mood','心情'],['smart','知识'],['fit','体能'],['charm','魅力']];
+ const cx=size/2,cy=size/2,r=size/2-56;
+ const pt=(i,v)=>{const a=-Math.PI/2+i*2*Math.PI/5;const rr=r*Math.max(0,Math.min(100,v||0))/100;return (cx+rr*Math.cos(a)).toFixed(1)+','+(cy+rr*Math.sin(a)).toFixed(1);};
+ const vals=ks.map(k=>p&&p.stats?p.stats[k[0]]:0);
+ const poly=ks.map((k,i)=>pt(i,vals[i])).join(' ');
+ let grid='';[25,50,75,100].forEach(g=>{grid+='<polygon points="'+ks.map((k,i)=>pt(i,g)).join(' ')+'" fill="none" stroke="#000" stroke-width="'+(g===100?3:1.5)+'"/>';});
+ let axes='';ks.forEach((k,i)=>{const a=-Math.PI/2+i*2*Math.PI/5;axes+='<line x1="'+cx+'" y1="'+cy+'" x2="'+(cx+r*Math.cos(a)).toFixed(1)+'" y2="'+(cy+r*Math.sin(a)).toFixed(1)+'" stroke="#000" stroke-width="1.5"/>';});
+ const labels=ks.map((k,i)=>{const a=-Math.PI/2+i*2*Math.PI/5;const lr=r+24;return '<text x="'+(cx+lr*Math.cos(a)).toFixed(1)+'" y="'+(cy+lr*Math.sin(a)).toFixed(1)+'" font-size="13" font-weight="900" text-anchor="middle" dominant-baseline="middle" fill="#000">'+k[1]+' '+vals[i]+'</text>';}).join('');
+ return '<svg viewBox="0 0 '+size+' '+size+'" width="100%" style="max-width:'+size+'px" role="img" aria-label="属性雷达图"><rect x="0" y="0" width="'+size+'" height="'+size+'" fill="#FFFF00"/><polygon points="'+poly+'" fill="#FF0000" stroke="#000" stroke-width="3"/>'+grid+axes+labels+'</svg>';
+}
+function curveSVG(p,w,h){
+ const c=(p&&p.curve)||[];if(c.length<2)return '<div class="dim">人生曲线数据不足。</div>';
+ const maxA=Math.max(10000,...c.map(d=>d.as||0));
+ const x0=46,x1=w-16,y0=26,y1=h-34;
+ const X=i=>x0+(x1-x0)*i/(c.length-1);
+ const YA=v=>y1-(y1-y0)*Math.min(1,(v||0)/maxA);
+ const YM=v=>y1-(y1-y0)*Math.max(0,Math.min(100,v||0))/100;
+ const la=c.map((d,i)=>X(i).toFixed(1)+','+YA(d.as).toFixed(1)).join(' ');
+ const lm=c.map((d,i)=>X(i).toFixed(1)+','+YM(d.mood).toFixed(1)).join(' ');
+ let ticks='';const step=Math.max(1,Math.round((c.length-1)/8));
+ for(let i=0;i<c.length;i+=step){ticks+='<line x1="'+X(i).toFixed(1)+'" y1="'+y0+'" x2="'+X(i).toFixed(1)+'" y2="'+y1+'" stroke="#000" stroke-width="1"/><text x="'+X(i).toFixed(1)+'" y="'+(y1+16)+'" font-size="11" font-weight="900" text-anchor="middle" fill="#000">'+c[i].age+'岁</text>';}
+ for(let g=0;g<=4;g++){const gy=y0+(y1-y0)*g/4;ticks+='<line x1="'+x0+'" y1="'+gy.toFixed(1)+'" x2="'+x1+'" y2="'+gy.toFixed(1)+'" stroke="#000" stroke-width="1"/>';}
+ return '<svg viewBox="0 0 '+w+' '+h+'" width="100%" role="img" aria-label="人生曲线图" style="display:block;background:#fff;border:3px solid #000">'
+  +ticks
+  +'<polyline points="'+la+'" fill="none" stroke="#0000FF" stroke-width="4"/>'
+  +'<polyline points="'+lm+'" fill="none" stroke="#FF0000" stroke-width="3"/>'
+  +'<text x="'+x0+'" y="17" font-size="12" font-weight="900" fill="#0000FF">— 总资产（峰值 '+fmtM(maxA)+'）</text>'
+  +'<text x="'+(x0+250)+'" y="17" font-size="12" font-weight="900" fill="#FF0000">— 心情</text>'
+  +'</svg>';
+}
+
+/* ---- 自动托管 ---- */
+function autoMonth(){const p=S.p;let g=0;while(p.ap>0&&g++<8)autoOne();endMonth();}
+function autoOne(){const p=S.p;
+ // 人生大事（自动决策，不耗行动点）
+ if(canJob(p)){const list=eligibleOffers(p).filter(c=>c.id!==p.job);if(list.length){const c=list[0];p.job=c.id;p.jobLvl=0;p.yearsLvl=0;tl(p,'成为'+c.ladder[0].n);ach(p,'job');glog(p,'💼','（自动）你入职成为一名'+c.ladder[0].n+'。');}}
+ if(!p.house&&p.age>=25&&assets(p)>=260000){houseBuy(0);}
+ if(p.age>=20&&!p.flags.married&&!p.npcs.find(n=>n.type==='恋人')){const n=p.npcs.find(x=>['朋友','同学','同事'].includes(x.type)&&x.bond>=70);if(n){n.type='恋人';n.bond=78;tl(p,'和'+n.name+'在一起了');glog(p,'💗','（自动）你和'+n.name+'在一起了！');snd.up();}}
+ if(p.age>=22&&!p.flags.married){const n=p.npcs.find(x=>x.type==='恋人'&&x.bond>=85);if(n&&p.job&&assets(p)>=20000){n.type='配偶';p.flags.married=true;mny(p,-20000);fameV(p,5);tl(p,'与'+n.name+'步入婚姻');ach(p,'marry');glog(p,'💍','（自动）你和'+n.name+'结婚了！');snd.up();}}
+ if(p.flags.married&&!p.flags.child&&p.age>=25&&p.age<=40){const sp=p.npcs.find(x=>x.type==='配偶');if(sp){p.flags.child=true;addNPC(p,{name:pick(BABYNAMES),type:'子女',bond:90,ico:'👶'});sst(p,'mood',8);tl(p,'家里迎来了小宝宝');ach(p,'baby');glog(p,'👶','（自动）宝宝出生了，家里热闹起来！');snd.up();}}
+ const acts=buildActions(p);const has=id=>acts.find(a=>a.id===id);
+ if(p.npcs.length&&Math.random()<0.3){const n=pick(p.npcs);n.bond=clamp(n.bond+3,0,100);p.lastY[n.name]=p.age;glog(p,'💬','（自动）和'+n.name+'聊了聊天。');p.ap--;return;}
+ let id=null;
+ if(p.stats.mood<35&&has('fun'))id='fun';
+ else if(p.stats.health<45&&has('rest'))id='rest';
+ else{const st=stageOf(p.age);const pref=st==='child'?['study','play','hobby','family','rest']:st==='teen'?['study','exercise','hobby','family','rest']:['study','exercise','fun','rest','shopping'];
+  for(const x of pref){if(has(x)){id=x;break;}}}
+ if(!id){const a=acts[0];if(!a){p.ap=0;return;}id=a.id;}
+ doActionCore(id,true);}
+function fastYear(){if(S.over)return;const p=S.p;const a0=p.age;S.auto=true;let g=0;
+ while(!S.over&&p.age<a0+1&&g++<60){autoAll();endMonth();}
+ S.auto=false;if(!S.over)save();render();}
+function autoAll(){const p=S.p;let g=0;while(p.ap>0&&g++<8)autoOne();}
+
+/* ================= 结算页 ================= */
+function endHTML(){const d=S.endData||{grade:'C',gradeName:'平凡而温暖',kw:'温暖人生',kindTxt:'人生落幕。',total:0,as:0,jobName:'—'};const p=S.p||{};
+ const gc={S:['#FF0000','#fff'],A:['#FFFF00','#000'],B:['#0000FF','#fff'],C:['#00FF00','#000']}[d.grade]||['#fff','#000'];
+ return '<div class="end-wrap"><div class="title-emoji">🌳</div><h1 style="font-size:44px;margin:10px 0 4px;transform:rotate(-1.5deg)">人生总结</h1>'
+ +'<p class="dim">'+d.kindTxt+'</p><div class="grade" style="background:'+gc[0]+';color:'+gc[1]+'">'+d.grade+'</div>'
+ +'<div class="kw">「'+d.kw+'」</div><p class="dim">综合评分 '+d.total+' / 100 · '+d.gradeName+'</p>'
+ +'<div class="sumgrid">'
+ +'<div class="card"><div class="dim">享年</div><div class="v">'+(p.age||'-')+' 岁</div></div>'
+ +'<div class="card"><div class="dim">职业巅峰</div><div class="v" style="font-size:15px">'+(d.jobName||'—')+'</div></div>'
+ +'<div class="card"><div class="dim">总资产</div><div class="v">'+fmtM(d.as||0)+'</div></div>'
+ +'<div class="card"><div class="dim">家人平均好感</div><div class="v">'+(d.avgBond||0)+'</div></div>'
+ +'</div>'
+ +'<div class="chartbox"><h3>📊 属性雷达</h3><div style="text-align:center">'+radarSVG(p,300)+'</div></div>'
+ +'<div class="chartbox"><h3>📈 人生曲线 <span class="dim">蓝线 = 历年总资产 · 红线 = 历年心情</span></h3>'+curveSVG(p,700,260)+'</div>'
+ +(p.ach&&p.ach.length?'<div class="card" style="text-align:left"><h3>🏆 成就（'+p.ach.length+'）</h3>'+p.ach.map(id=>'<span class="ach-chip">🎖️ '+ACHV[id].n+' · '+ACHV[id].d+'</span>').join('')+'</div>':'')
+ +'<div class="card" style="text-align:left;margin-top:12px"><h3>🕰️ 人生时间线</h3>'+(p.timeline||[]).map(t=>'<div class="tl-item"><b>'+t.age+'岁</b>'+t.t+'</div>').join('')+'</div>'
+ +'<div style="margin:26px 0 40px"><button class="btn primary" style="font-size:17px;padding:13px 36px" onclick="restart()">🌱 再来一段新人生</button></div></div>';}
+function restart(){try{localStorage.removeItem(KEY);}catch(e){}boot();}
+window.onload=boot;
+</script>
+</body>
+</html>

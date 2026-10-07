@@ -1,0 +1,261 @@
+# 临时工具（非交付物）：生成"实时交互版"GUI 设计图（HTML→截图评审）。
+# 主场景 = 实时店铺地板 + 常驻侧栏 + 时钟速度条；一窗到底，不再切屏。
+import pathlib
+
+OUT = pathlib.Path(__file__).resolve().parent / "design" / "mockups"
+OUT.mkdir(parents=True, exist_ok=True)
+
+CSS = """
+* { margin:0; padding:0; box-sizing:border-box; font-family:"Microsoft YaHei UI","PingFang SC",sans-serif; }
+body { background:#aab4c0; padding:20px; }
+.win { width:1060px; border-radius:12px; overflow:hidden; border:1px solid #b9c3ce;
+       box-shadow:0 18px 50px rgba(20,35,50,.35); background:#eef1f5; }
+.titlebar { height:36px; background:#fff; border-bottom:1px solid #e2e7ee;
+            display:flex; align-items:center; padding:0 12px; gap:9px; }
+.logo { width:22px; height:22px; border-radius:6px; background:#1f7a5a; color:#fff;
+        font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; }
+.titlebar .t { font-size:12.5px; color:#4a5a6a; font-weight:600; }
+.titlebar .btns { margin-left:auto; display:flex; gap:6px; }
+.titlebar .btns span { width:12px; height:12px; border-radius:50%; background:#d6dde5; }
+.titlebar .btns span.x { background:#e57373; }
+.topbar { display:flex; align-items:center; gap:10px; padding:8px 14px; background:#fff;
+          border-bottom:1px solid #e2e7ee; }
+.chip { display:inline-flex; align-items:center; gap:6px; padding:5px 11px; border-radius:8px;
+        background:#f2f5f8; border:1px solid #e0e6ec; font-size:12.5px; color:#22303c; }
+.chip b { font-weight:700; }
+.chip .star { color:#8a6d1a; letter-spacing:1px; }
+.speed { display:flex; border:1px solid #d0d8e0; border-radius:8px; overflow:hidden; }
+.speed span { padding:5px 12px; font-size:12.5px; color:#4a5a6a; border-right:1px solid #e0e6ec; }
+.speed span.on { background:#1f7a5a; color:#fff; font-weight:700; }
+.main { display:flex; gap:12px; padding:12px; }
+/* ---------- 实时地板 ---------- */
+.floorwrap { position:relative; flex:1.6; border-radius:10px; overflow:hidden;
+             border:1px solid #d0d8e0; background:#e8e2d8; height:540px; }
+.wall-top { position:absolute; top:0; left:0; right:0; height:16px; background:#7d6b58; }
+.wall-right { position:absolute; top:0; right:0; bottom:0; width:16px; background:#8a7864; }
+.door { position:absolute; left:0; bottom:64px; width:16px; height:56px; background:#fff;
+        border:2px solid #1f7a5a; border-left:none; border-radius:0 8px 8px 0;
+        display:flex; align-items:center; justify-content:center; font-size:10px; color:#1f7a5a; font-weight:700; }
+.floor { position:absolute; inset:16px 16px 0 16px;
+         background-image:linear-gradient(45deg,#efe9de 25%,transparent 25%),
+           linear-gradient(-45deg,#efe9de 25%,transparent 25%),
+           linear-gradient(45deg,transparent 75%,#efe9de 75%),
+           linear-gradient(-45deg,transparent 75%,#efe9de 75%);
+         background-size:36px 36px; background-position:0 0,0 18px,18px -18px,-18px 0; }
+.shelf { position:absolute; width:168px; height:54px; border-radius:7px; background:#1f7a5a;
+         border:2px solid #155c44; padding:5px 8px; color:#fff; box-shadow:0 3px 6px rgba(0,0,0,.18); }
+.shelf .nm { font-size:12px; font-weight:700; display:flex; gap:6px; align-items:center; }
+.shelf .pr { font-size:10.5px; opacity:.85; margin-top:1px; }
+.pips { display:flex; gap:2px; margin-top:4px; }
+.pips i { width:9px; height:5px; border-radius:2px; background:rgba(255,255,255,.92); }
+.pips i.low { background:#e8b45a; }
+.shelf.premium { border-color:#e8b45a; }
+.shelf.premium .gold { position:absolute; top:-9px; right:-7px; font-size:12px;
+        background:#f7efd8; color:#8a6d1a; border:1px solid #e0cf96; padding:1px 7px;
+        border-radius:8px; font-weight:700; font-size:10.5px; }
+.shelf.empty { background:#b9c3ce; border-color:#9aa7b4; }
+.shelf .stocktxt { position:absolute; right:8px; top:6px; font-size:10.5px; opacity:.9; }
+.counter { position:absolute; right:26px; bottom:36px; width:150px; height:30px; background:#5c4a38;
+           border-radius:6px; color:#fff; font-size:11.5px; display:flex; align-items:center;
+           justify-content:center; font-weight:700; box-shadow:0 3px 6px rgba(0,0,0,.2); }
+.cust { position:absolute; width:14px; height:14px; border-radius:50%;
+        box-shadow:0 2px 4px rgba(0,0,0,.25); }
+.cust.office { background:#3a7bd5; }
+.cust.student { background:#e67e22; }
+.cust.senior { background:#8e6cc9; }
+.cust .bubble { position:absolute; top:-22px; left:50%; transform:translateX(-50%);
+        background:#fff; border:1px solid #d0d8e0; color:#4a5a6a; border-radius:8px;
+        font-size:9.5px; padding:1px 5px; white-space:nowrap; font-weight:600; }
+.cust.gone { background:#c0392b; }
+.cust.gone .bubble { color:#c0392b; }
+.legend { position:absolute; left:8px; top:20px; background:rgba(255,255,255,.92); border:1px solid #e0e6ec;
+          border-radius:8px; padding:6px 10px; font-size:10.5px; color:#4a5a6a; display:flex; gap:10px; }
+.legend i { display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:4px; }
+.clockchip { position:absolute; right:8px; top:20px; background:rgba(255,255,255,.94);
+             border:1px solid #e0e6ec; border-radius:8px; padding:5px 11px; font-size:12px; font-weight:700; }
+/* ---------- 侧栏 ---------- */
+.side { flex:1; display:flex; flex-direction:column; gap:10px; height:540px; }
+.tabs { display:flex; background:#fff; border:1px solid #e0e6ec; border-radius:9px; overflow:hidden; }
+.tabs span { flex:1; text-align:center; padding:8px 0; font-size:12.5px; color:#68788a; }
+.tabs span.on { color:#1f7a5a; font-weight:700; background:#e2f1ea; }
+.card { background:#fff; border:1px solid #e0e6ec; border-radius:10px; padding:12px 14px; }
+.sub { font-size:11.5px; color:#68788a; }
+.stat { display:flex; flex-direction:column; }
+.stat b { font-size:19px; }
+.stat b.green { color:#1f7a5a; } .stat b.red { color:#c0392b; }
+.tag { display:inline-block; padding:2px 8px; border-radius:6px; font-size:11px; font-weight:600; }
+.tag.warn { background:#fdf3e0; color:#b7791f; }
+.tag.bad  { background:#fdeceb; color:#c0392b; }
+.tag.ok   { background:#e2f1ea; color:#1f7a5a; }
+.btn { display:inline-flex; align-items:center; justify-content:center; gap:6px;
+       padding:8px 14px; border-radius:8px; font-size:12.5px; font-weight:600;
+       background:#fff; color:#22303c; border:1px solid #d0d8e0; }
+.btn.primary { background:#1f7a5a; border-color:#1f7a5a; color:#fff; }
+.btn.big { padding:12px 16px; font-size:14px; }
+.pbar { height:8px; border-radius:5px; background:#e6ebf1; overflow:hidden; }
+.pbar i { display:block; height:100%; background:#1f7a5a; border-radius:5px; }
+table.grid { width:100%; border-collapse:collapse; font-size:12px; }
+table.grid th { text-align:left; font-size:11px; color:#4a5a6a; background:#f0f3f7;
+                padding:6px 8px; border-bottom:1px solid #e0e6ec; white-space:nowrap; }
+table.grid td { padding:5px 8px; border-bottom:1px solid #eef1f5; white-space:nowrap; }
+.num { text-align:right; font-variant-numeric:tabular-nums; }
+.logline { display:flex; gap:10px; font-size:11.5px; padding:4px 0; border-bottom:1px dashed #eef1f5;
+           font-variant-numeric:tabular-nums; }
+.paused { position:absolute; inset:0; background:rgba(24,36,48,.30); display:flex;
+          align-items:center; justify-content:center; }
+.paused .pp { background:#fff; border-radius:10px; padding:10px 22px; font-weight:700;
+              font-size:14px; color:#22303c; box-shadow:0 10px 30px rgba(10,25,40,.3); }
+"""
+
+def page(body: str) -> str:
+    return f"""<!doctype html><html><head><meta charset="utf-8"><style>{CSS}</style></head>
+<body><div class="win">
+  <div class="titlebar"><span class="logo">便</span>
+    <span class="t">便利店大亨 · Demo v0.2 实时版</span>
+    <span class="btns"><span></span><span></span><span class="x"></span></span></div>
+  {body}
+</div></body></html>"""
+
+TOPBAR = """
+  <div class="topbar">
+    <span class="chip"><b>第 12 天</b> [周三]</span>
+    <div class="speed"><span>⏸ 暂停</span><span class="on">▶ 1×</span><span>2×</span><span>4×</span></div>
+    <span class="chip">💵 现金 <b>¥19,746.80</b></span>
+    <span class="chip">声望 <span class="star">★★★★☆</span> <b>68</b></span>
+    <span style="flex:1"></span>
+    <span class="chip">净资产 <b>¥26,415</b></span>
+    <span class="chip">目标 <b>¥200,000</b></span>
+  </div>"""
+
+# ---- 地板（两个场景复用） ----
+def floor(extra="", paused=False):
+    shelves = """
+    <div class="shelf premium" style="left:26px; top:30px"><span class="gold">★ 黄金位</span>
+      <div class="nm">矿泉水 <span class="stocktxt">30/36 · ¥2.20</span></div>
+      <div class="pr">进价 ¥1.00 · 今日 14 件</div>
+      <div class="pips">""" + "<i></i>" * 24 + '<i class="low"></i>' * 6 + """</div></div>
+    <div class="shelf" style="left:210px; top:30px">
+      <div class="nm">红烧牛肉面 <span class="stocktxt">24/36 · ¥4.00</span></div>
+      <div class="pr">进价 ¥2.20 · 今日 9 件</div>
+      <div class="pips">""" + "<i></i>" * 20 + '<i class="low"></i>' * 4 + """</div></div>
+    <div class="shelf" style="left:394px; top:30px">
+      <div class="nm">全麦面包 <span class="stocktxt">18/36 · ¥4.50</span></div>
+      <div class="pr">进价 ¥2.50 · 今日 11 件 ⚠剩2天</div>
+      <div class="pips">""" + "<i></i>" * 14 + '<i class="low"></i>' * 4 + """</div></div>
+    <div class="shelf premium" style="left:26px; top:112px"><span class="gold">★ 黄金位</span>
+      <div class="nm">可乐 <span class="stocktxt">36/36 · ¥3.50</span></div>
+      <div class="pr">促销 −20% · 今日 22 件</div>
+      <div class="pips">""" + "<i></i>" * 36 + """</div></div>
+    <div class="shelf" style="left:210px; top:112px">
+      <div class="nm">金枪鱼三明治 <span class="stocktxt">12/36 · ¥9.00</span></div>
+      <div class="pr">进价 ¥4.50 · 今日 8 件 ⚠剩1天</div>
+      <div class="pips">""" + "<i></i>" * 9 + '<i class="low"></i>' * 3 + """</div></div>
+    <div class="shelf empty" style="left:394px; top:112px">
+      <div class="nm" style="color:#5b6a79">（空槽位）</div>
+      <div class="pr" style="color:#8a97a4">从仓库上架商品</div></div>"""
+    custs = """
+    <div class="cust office" style="left:150px; top:196px"><span class="bubble">逛</span></div>
+    <div class="cust office" style="left:470px; top:86px"><span class="bubble">挑选</span></div>
+    <div class="cust student" style="left:250px; top:150px"><span class="bubble">拿可乐</span></div>
+    <div class="cust student" style="left:340px; top:250px"></div>
+    <div class="cust senior" style="left:120px; top:300px"><span class="bubble">找抽纸</span></div>
+    <div class="cust senior" style="left:560px; top:330px"></div>
+    <div class="cust office" style="left:588px; top:428px"><span class="bubble">结账 ¥23.5</span></div>
+    <div class="cust student" style="left:556px; top:452px"><span class="bubble">排队 2人</span></div>
+    <div class="cust student" style="left:524px; top:476px"><span class="bubble">排队 3人</span></div>
+    <div class="cust gone" style="left:60px; top:436px"><span class="bubble">缺货走了…</span></div>"""
+    legend = """
+    <div class="legend"><span><i style="background:#3a7bd5"></i>上班族</span>
+      <span><i style="background:#e67e22"></i>学生</span>
+      <span><i style="background:#8e6cc9"></i>银发族</span>
+      <span><i style="background:#c0392b"></i>流失</span></div>"""
+    pause = '<div class="paused"><span class="pp">⏸ 已暂停（可从容操作侧栏）</span></div>' if paused else ""
+    return (f"""<div class="floorwrap">
+      <div class="floor"><div class="wall-top"></div><div class="wall-right"></div>
+      <div class="door">入</div>{shelves}{custs}
+      <div class="counter">🧾 收银台</div>
+      {legend}<div class="clockchip">🕑 14:23</div></div>{extra}{pause}</div>""")
+
+# ---- 侧栏：今日 ----
+SIDE_TODAY = """
+  <div class="side">
+    <div class="tabs"><span class="on">今日</span><span>进货</span><span>定价</span><span>陈列</span><span>报表</span></div>
+    <div class="card">
+      <div style="display:flex; gap:16px">
+        <div class="stat"><span class="sub">今日营收</span><b class="green">¥1,132</b></div>
+        <div class="stat"><span class="sub">成交</span><b>71 单</b></div>
+        <div class="stat"><span class="sub">客流</span><b>96</b></div>
+        <div class="stat"><span class="sub">满意度</span><b>77</b></div>
+      </div>
+    </div>
+    <div class="card">
+      <div style="font-weight:700; font-size:12.5px; margin-bottom:6px">实时提醒</div>
+      <span class="tag bad">⚠ 缺货：城市晚报（需求 6 次未满足）</span><br><br>
+      <span class="tag warn">⚠ 三明治剩 1 天 → 建议促销</span><br><br>
+      <span class="tag ok">✓ 高峰期 17:00 将到来，可乐库存偏低</span>
+    </div>
+    <div class="card" style="flex:1">
+      <div style="font-weight:700; font-size:12.5px; margin-bottom:6px">最近动态</div>
+      <div class="logline"><b>14:20</b><span>上班族 购买 可乐×1 三明治×1</span><span style="margin-left:auto; color:#1f7a5a">+¥11.8</span></div>
+      <div class="logline"><b>14:22</b><span>学生 购买 可乐×2</span><span style="margin-left:auto; color:#1f7a5a">+¥5.6</span></div>
+      <div class="logline"><b>14:23</b><span style="color:#c0392b">银发族 想买晚报 — 缺货离开</span></div>
+      <div class="logline"><b>14:23</b><span>银发族 购买 抽纸×1</span><span style="margin-left:auto; color:#1f7a5a">+¥4.5</span></div>
+    </div>
+  </div>"""
+
+# ---- 侧栏：进货 ----
+SIDE_BUY = """
+  <div class="side">
+    <div class="tabs"><span>今日</span><span class="on">进货</span><span>定价</span><span>陈列</span><span>报表</span></div>
+    <div class="card" style="flex:1; padding:8px 10px">
+      <table class="grid">
+        <tr><th>商品</th><th class="num">进价</th><th class="num">仓库+架</th><th class="num">均销</th><th class="num">建议</th></tr>
+        <tr><td>矿泉水</td><td class="num">1.0</td><td class="num">78</td><td class="num">22.5</td><td class="num">-</td></tr>
+        <tr><td style="font-weight:700; color:#1f7a5a">可乐 ▸</td><td class="num">1.8</td><td class="num">60</td><td class="num">18.2</td><td class="num">1箱</td></tr>
+        <tr><td>鲜榨果汁1L</td><td class="num">3.0</td><td class="num">30</td><td class="num">9.8</td><td class="num">1箱</td></tr>
+        <tr><td>全麦面包 ⚠</td><td class="num">2.5</td><td class="num">30</td><td class="num">11.5</td><td class="num">2箱</td></tr>
+        <tr><td>金枪鱼三明治 ⚠</td><td class="num">4.5</td><td class="num">12</td><td class="num">8.2</td><td class="num">2箱</td></tr>
+        <tr><td>城市晚报</td><td class="num">0.8</td><td class="num">0</td><td class="num">7.0</td><td class="num">1箱</td></tr>
+      </table>
+      <div class="sub" style="margin-top:6px">标准供货 · 当日早到货 · 整箱进货</div>
+    </div>
+    <div class="card">
+      <div style="font-weight:700; font-size:12.5px; margin-bottom:6px">订单车</div>
+      <div style="font-size:12.5px; display:flex; justify-content:space-between"><span>可乐 ×2箱</span><span>¥86.40</span></div>
+      <div style="font-size:12.5px; display:flex; justify-content:space-between; margin-top:3px"><span>三明治 ×2箱</span><span>¥108.00</span></div>
+      <div style="font-size:12.5px; display:flex; justify-content:space-between; margin-top:3px"><span>晚报 ×2箱</span><span>¥32.00</span></div>
+      <div style="margin-top:8px; font-size:12.5px">合计 <b>¥226.40</b> · 96 件<span class="sub">（仓库剩余 158 件）</span></div>
+      <div style="display:flex; gap:8px; margin-top:10px">
+        <span class="btn">✕ 移除选中</span><span class="btn primary" style="flex:1">✓ 确认下单</span>
+      </div>
+    </div>
+  </div>"""
+
+# ---- t01 主界面 ----
+t01 = page(TOPBAR + '<div class="main">' + floor() + SIDE_TODAY + "</div>")
+
+# ---- t02 货架点击 → 就地操作卡 ----
+POPOVER = """
+  <div style="position:absolute; left:200px; top:170px; width:250px; background:#fff;
+              border:1px solid #d0d8e0; border-radius:11px; padding:14px 16px;
+              box-shadow:0 14px 38px rgba(10,25,40,.30); z-index:5">
+    <div style="display:flex; align-items:center; gap:8px">
+      <b style="font-size:13.5px">金枪鱼三明治</b><span class="tag gold">★ 黄金位</span>
+      <span style="margin-left:auto; color:#8a97a4; font-size:12px">✕</span></div>
+    <div class="sub" style="margin-top:4px">售价 ¥9.00（参考 ¥9.00）· 毛利 50% · 今日 8 件</div>
+    <div style="margin:9px 0 3px" class="sub">库存 12/36 · <span style="color:#b7791f">剩 1 天保质期</span></div>
+    <div class="pbar"><i style="width:33%; background:#b7791f"></i></div>
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:7px; margin-top:12px">
+      <span class="btn">✎ 改价</span><span class="btn">🏷 促销</span><span class="btn primary">＋ 补货</span>
+    </div>
+    <div class="sub" style="margin-top:9px">改价/促销立即生效 · 补货从仓库即挂上架</div>
+  </div>"""
+t02 = page(TOPBAR + '<div class="main">' + floor(POPOVER) + SIDE_TODAY + "</div>")
+
+# ---- t03 暂停状态下操作进货侧栏 ----
+t03 = page(TOPBAR + '<div class="main">' + floor(paused=True) + SIDE_BUY + "</div>")
+
+SCREENS = {"t01_realtime_main": t01, "t02_shelf_popover": t02, "t03_pause_procurement": t03}
+for name, html in SCREENS.items():
+    (OUT / f"{name}.html").write_text(html, encoding="utf-8")
+print("written:", len(SCREENS), "->", OUT)

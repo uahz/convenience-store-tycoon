@@ -1,0 +1,93 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+* { margin:0; padding:0; box-sizing:border-box; font-family:"Microsoft YaHei UI","PingFang SC",sans-serif; }
+body { background:#aab4c0; padding:20px; }
+.win { width:1040px; border-radius:12px; overflow:hidden; border:1px solid #b9c3ce;
+       box-shadow:0 18px 50px rgba(20,35,50,.35); background:#eef1f5; }
+.titlebar { height:38px; background:#ffffff; border-bottom:1px solid #e2e7ee;
+            display:flex; align-items:center; padding:0 14px; gap:10px; }
+.logo { width:22px; height:22px; border-radius:6px; background:#1f7a5a; color:#fff;
+        font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; }
+.titlebar .t { font-size:12.5px; color:#4a5a6a; font-weight:600; }
+.titlebar .btns { margin-left:auto; display:flex; gap:6px; }
+.titlebar .btns span { width:12px; height:12px; border-radius:50%; background:#d6dde5; }
+.titlebar .btns span.x { background:#e57373; }
+.statusbar { display:flex; align-items:center; gap:12px; padding:10px 18px;
+             background:#ffffff; border-bottom:1px solid #e2e7ee; }
+.chip { display:inline-flex; align-items:center; gap:6px; padding:6px 12px; border-radius:8px;
+        background:#f2f5f8; border:1px solid #e0e6ec; font-size:13px; color:#22303c; }
+.chip b { font-weight:700; }
+.chip .star { color:#8a6d1a; letter-spacing:1px; }
+.body { padding:18px 20px; position:relative; }
+h1.screen-title { font-size:20px; color:#22303c; }
+.sub { font-size:12.5px; color:#68788a; margin-top:4px; }
+.card { background:#fff; border:1px solid #e0e6ec; border-radius:10px; }
+.btn { display:inline-flex; align-items:center; justify-content:center; gap:6px;
+       padding:10px 18px; border-radius:9px; font-size:13.5px; font-weight:600;
+       background:#fff; color:#22303c; border:1px solid #d0d8e0; cursor:default; }
+.btn.primary { background:#1f7a5a; border-color:#1f7a5a; color:#fff; }
+.btn.big { padding:14px 22px; font-size:15px; }
+.btn.danger-soft { color:#c0392b; border-color:#ecc8c4; background:#fdf3f2; }
+.tag { display:inline-block; padding:2px 8px; border-radius:6px; font-size:11.5px; font-weight:600; }
+.tag.warn { background:#fdf3e0; color:#b7791f; }
+.tag.bad  { background:#fdeceb; color:#c0392b; }
+.tag.ok   { background:#e2f1ea; color:#1f7a5a; }
+.tag.gold { background:#f7efd8; color:#8a6d1a; }
+table.grid { width:100%; border-collapse:collapse; font-size:12.5px; background:#fff; }
+table.grid th { text-align:left; font-size:12px; color:#4a5a6a; background:#f0f3f7;
+                padding:8px 10px; border-bottom:1px solid #e0e6ec; white-space:nowrap; }
+table.grid td { padding:7px 10px; border-bottom:1px solid #eef1f5; color:#22303c; white-space:nowrap; }
+table.grid tr:last-child td { border-bottom:none; }
+.num { text-align:right; font-variant-numeric:tabular-nums; }
+.pbar { height:8px; border-radius:5px; background:#e6ebf1; overflow:hidden; }
+.pbar i { display:block; height:100%; background:#1f7a5a; border-radius:5px; }
+.overlay { position:absolute; inset:0; background:rgba(24,36,48,.45); display:flex;
+           align-items:center; justify-content:center; }
+.modal { width:460px; background:#fff; border-radius:12px; padding:20px 22px;
+         box-shadow:0 16px 44px rgba(10,25,40,.35); }
+.modal h2 { font-size:16px; margin-bottom:4px; }
+.modal .m-sub { font-size:12px; color:#68788a; margin-bottom:14px; }
+.footerbar { display:flex; align-items:center; gap:10px; padding:14px 0 2px; }
+.spacer { flex:1; }
+</style></head>
+<body><div class="win">
+  <div class="titlebar"><span class="logo">便</span>
+    <span class="t">便利店大亨 · Demo v0.1.0</span>
+    <span class="btns"><span></span><span></span><span class="x"></span></span></div>
+  
+  <div class="statusbar">
+    <span class="chip">📅 第 12 天 [周三]</span>
+    <span class="chip">💵 现金 <b>¥19,746.80</b></span>
+    <span class="chip">声望 <span class="star">★★★★☆</span> <b>68</b></span>
+    <span class="chip">净资产 <b>¥26,415</b></span>
+    <span class="spacer"></span>
+    <span class="chip" style="color:#68788a">目标 ¥200,000</span>
+  </div>
+  <div class="body">
+ <div style="display:flex; gap:18px; align-items:flex-start; justify-content:center">
+   <div class="card" style="width:560px; padding:18px 22px">
+     <div style="display:flex; align-items:baseline; gap:10px; margin-bottom:8px">
+       <h1 class="screen-title" style="font-size:17px">每日结算 · 第 12 天 [周三]</h1>
+       <span class="tag ok">连续盈利 4 天</span>
+     </div><div style="display:flex; justify-content:space-between; padding:9px 4px;border-bottom:1px solid #eef1f5; font-weight:700;"><span style="font-size:13.5px; color:">营收（75 单 / 进店 96 人）</span><span style="font-size:13.5px;font-weight:700;color:#22303c">+¥1,845.00</span></div><div style="display:flex; justify-content:space-between; padding:9px 4px;border-bottom:1px solid #eef1f5; "><span style="font-size:13.5px; color:#4a5a6a">售出成本</span><span style="font-size:13.5px;color:#22303c">−¥1,254.60</span></div><div style="display:flex; justify-content:space-between; padding:9px 4px;border-bottom:1px solid #eef1f5; "><span style="font-size:13.5px; color:#4a5a6a">报废损失（城市晚报 ×10 等）</span><span style="font-size:13.5px;color:c0392b">−¥27.00</span></div><div style="display:flex; justify-content:space-between; padding:9px 4px;border-bottom:1px solid #eef1f5; "><span style="font-size:13.5px; color:#4a5a6a">房租</span><span style="font-size:13.5px;color:#22303c">−¥250.00</span></div><div style="display:flex; justify-content:space-between; padding:9px 4px;border-bottom:1px solid #eef1f5; "><span style="font-size:13.5px; color:#4a5a6a">水电（30 + 营收×1.5%）</span><span style="font-size:13.5px;color:#22303c">−¥57.68</span></div><div style="display:flex; justify-content:space-between; padding:9px 4px;border-bottom:1px solid #eef1f5; font-weight:700;"><span style="font-size:13.5px; color:">今日净利</span><span style="font-size:19px;font-weight:700;color:#1e8e5a">+¥255.72</span></div>
+     <div style="display:flex; gap:8px; margin:14px 0 4px; flex-wrap:wrap">
+       <span class="chip">转化率 <b>78%</b></span><span class="chip">客单价 <b>¥24.6</b></span>
+       <span class="chip">缺货率 <b style="color:#b7791f">9.4%</b></span>
+       <span class="chip">周转 <b>0.31</b></span><span class="chip">报废率 <b>2.1%</b></span>
+     </div>
+     <div style="padding:10px 4px; font-size:13px; color:#4a5a6a">
+       满意度 77 · 声望 67 → <b style="color:#1e8e5a">68</b>
+       <span style="color:#8a6d1a; letter-spacing:1px">★★★★☆</span></div>
+     <div class="footerbar"><span class="spacer"></span>
+       <span class="btn primary big">进入夜间运营 →</span></div>
+   </div>
+   <div class="card" style="width:280px; padding:16px 18px">
+     <div style="font-weight:700; font-size:13.5px; margin-bottom:10px">资金概览</div>
+     <div class="sub">现金余额</div><div style="font-size:21px; font-weight:700">¥19,802.68</div>
+     <div class="sub" style="margin-top:10px">净资产</div><div style="font-size:21px; font-weight:700">¥26,415</div>
+     <div class="sub" style="margin-top:12px">胜利进度（¥200,000）</div>
+     <div class="pbar" style="margin-top:6px"><i style="width:13%"></i></div>
+     <div class="sub" style="margin-top:4px">已达成 13.2%</div>
+   </div>
+ </div>
+</div>
+</div></body></html>

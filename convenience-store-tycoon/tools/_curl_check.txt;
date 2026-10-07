@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>便利店大亨 · Convenience Tycoon</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  html, body { margin: 0; padding: 0; background: #0B3E2E; height: 100%; }
+  #ComposeTarget { width: 100vw; height: 100vh; display: block; }
+  #loading { position: fixed; inset: 0; display: flex; align-items: center;
+             justify-content: center; color: #fff; font-family: "Microsoft YaHei UI";
+             font-size: 18px; z-index: -1; }
+</style>
+</head>
+<body>
+<div id="loading">便利店大亨 加载中……（首次需下载约 30MB，请稍候）</div>
+<canvas id="ComposeTarget"></canvas>
+<script src="ConvenienceTycoon.js"></script>
+</body>
+</html>
