@@ -1,4 +1,2 @@
-saves/
-__pycache__/
-build/
-dist/
+# 上传类脚本含密钥操作流程，不入仓库
+_gh_upload_wrapper.py
